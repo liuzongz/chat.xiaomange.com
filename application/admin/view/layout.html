@@ -1,0 +1,46 @@
+{include file="public/header" /}
+<style>
+.listson p{
+	padding-left:4em;
+	padding-top:1em;
+	padding-bottom:0.5em;
+}
+.first{
+	padding-top:2em;
+}
+</style>
+<div class="row bord-all" style="margin-top:3em;">
+	<div class="col-lg-10 col-lg-offset-1">
+		<div class="row" style="background-color:#fff">
+			<div class="col-lg-2 bord-rgt  pad-no">
+				<div class="list-group bord-no pad-no mar-top">
+					<a class="list-group-item pad-no {eq name='menuinfo.controller' value='Index'}bg-success{/eq}"  href="{:url('index/index')}">
+						<div class="bord-btm pad-all">
+							<i class="ion-home icon-2x mar-hor"></i>首页
+						</div>
+					</a>
+					{volist name="leftMenu" id="v"}
+					<div class="list-group-item pad-no">
+						<div class="bord-btm pad-all listson">
+							<div class="mar-btm"><i class="{$v['icon']} icon-2x mar-hor"></i>{$v['name']}</div>
+							<ul class="list-group">
+								{volist name="v.son" id="s"}
+									<a href="{:url($s.url)}" class="list-group-item {eq name='menuinfo.controller' value='$s.model'}{eq name='menuinfo.action' value='$s.action'} active{/eq}{/eq}" ><span class="mar-lft pad-lft">|--</span> {$s.name}</a>
+								{/volist}
+							</ul>
+						</div>
+					</div>
+					{/volist}
+					
+				</div>
+			</div>
+			<div class="col-lg-10 bord-lft">
+				<div class="pad-all mar-all">
+					{__CONTENT__}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ 
+{include file="public/footer" /}

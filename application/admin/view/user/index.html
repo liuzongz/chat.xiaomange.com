@@ -1,0 +1,146 @@
+{layout name="layout"}
+<link href="__PLUGINS__/morris-js/morris.min.css" rel="stylesheet">
+
+<script src="__PLUGINS__/morris-js/morris.min.js"></script>
+<script src="__PLUGINS__/morris-js/raphael-js/raphael.min.js"></script>
+<script src="__PLUGINS__/sparkline/jquery.sparkline.min.js"></script>
+<style>
+.morris{
+	max-height:15em;
+	color:#fff;
+}
+</style>
+<div class="row">
+	<!-- member统计开始 -->
+	<div class="col-sm-6 col-md-6 col-lg-4">
+		<div class="panel panel-success panel-colorful">
+			<div class="pad-all">
+				<p class="text-lg text-semibold">
+					<i class="ion-person-stalker icon-2x icon-fw"></i>用户数据
+				</p>
+				<p class="mar-no">
+					<span class="pull-right text-bold">{$members.total}人</span>
+					总用户量
+				</p>
+				<p class="mar-no">
+					<span class="pull-right text-bold">{$members.week}人</span>
+					本周新增
+				</p>
+				<p class="mar-no">
+					<span class="pull-right text-bold">{$members.today}人</span>
+					今日新增
+				</p>
+			</div>
+			<div class="pad-all text-center ">
+				<div id="members"  class="morris"></div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- company统计开始 -->
+	<div class="col-sm-6 col-md-6 col-lg-4">
+		<div class="panel panel-primary panel-colorful">
+			<div class="pad-all">
+				<p class="text-lg text-semibold">
+					<i class="ion-earth icon-2x icon-fw"></i>企业数据
+				</p>
+				<p class="mar-no">
+					<span class="pull-right text-bold">{$companys.total}家</span>
+					总用户量
+				</p>
+				<p class="mar-no">
+					<span class="pull-right text-bold">{$companys.week}家</span>
+					本周新增
+				</p>
+				<p class="mar-no">
+					<span class="pull-right text-bold">{$companys.today}家</span>
+					今日新增
+				</p>
+			</div>
+			<div class="pad-all text-center">
+				<div id="companys"  class="morris"></div>
+			</div>
+		</div>
+	</div>
+	
+		
+	<!-- proxys统计开始 -->
+	<div class="col-sm-6 col-md-6 col-lg-4">
+		<div class="panel panel-warning panel-colorful">
+			<div class="pad-all">
+				<p class="text-lg text-semibold">
+					<i class="ion-social-snapchat icon-2x icon-fw"></i>代理商数据
+				</p>
+				<p class="mar-no">
+					<span class="pull-right text-bold">{$proxys.total}人</span>
+					总用户量
+				</p>
+				<p class="mar-no">
+					<span class="pull-right text-bold">{$proxys.week}人</span>
+					本周新增
+				</p>
+				<p class="mar-no">
+					<span class="pull-right text-bold">{$proxys.today}人</span>
+					今日新增
+				</p>
+			</div>
+			<div class="pad-all text-center ">
+				<div id="proxys" class="morris"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(window).on('resizeEnd', function(){
+	Morris.Line({
+			element: 'members',
+			data: {$members.txt},
+			xkey: 'elapsed',
+		 	ykeys: ['value'],
+			labels: ['新增'],
+			gridEnabled: true,
+			gridLineColor: 'transparent',
+			lineColors: ['#fff'],
+			lineWidth: 2,
+			parseTime: false,
+			resize:true,
+			hideHover: 'auto',
+			gridTextColor:'#fff',
+		});
+	
+	Morris.Line({
+		element: 'companys',
+		data: {$companys.txt},
+		xkey: 'elapsed',
+	 	ykeys: ['value'],
+		labels: ['新增'],
+		gridEnabled: true,
+		gridLineColor: 'transparent',
+		lineColors: ['#fff'],
+		lineWidth: 2,
+		parseTime: false,
+		resize:true,
+		hideHover: 'auto',
+		gridTextColor:'#fff',
+	});
+	Morris.Line({
+		element: 'proxys',
+		data: {$proxys.txt},
+		xkey: 'elapsed',
+	 	ykeys: ['value'],
+		labels: ['新增'],
+		gridEnabled: true,
+		gridLineColor: 'transparent',
+		lineColors: ['#fff'],
+		lineWidth: 2,
+		parseTime: false,
+		resize:true,
+		hideHover: 'auto',
+		gridTextColor:'#fff',
+	});	
+})
+
+
+
+</script>

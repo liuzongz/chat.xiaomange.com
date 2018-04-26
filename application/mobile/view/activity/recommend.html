@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>{$page_title|default='今日资源推荐'}</title>
+    <link href="__CSS__/bootstrap.css" rel="stylesheet">
+    <link href="__CSS__/nifty.css" rel="stylesheet">
+    <link href="__PLUGINS__/ionicons/css/ionicons.min.css" rel="stylesheet">    
+    <script src="__JS__/jquery-2.2.4.min.js"></script>
+    <script src="__JS__/bootstrap.min.js"></script>
+    <script src="__JS__/nifty.js"></script>
+    <script src="__PLUS__/Layer/layer.js"></script>
+    <script src="__PLUS__/template.js"></script>
+    <script type="text/javascript" src="__PLUS__/flexible/flexible.js"></script>
+	<script type="text/javascript" src="__PLUS__/flexible/iscroll.js"></script>
+	<script type="text/javascript" src="__PLUS__/flexible/navbarscroll.js"></script>
+    <script src="__JS__/common.js?t={$nowtime}"></script>
+    <script src="__PLUS__/dropload/dropload.min.js"></script>
+     <link href="__PLUS__/dropload/dropload.css" rel="stylesheet"> 
+    <style>
+	.jiao{
+		border-radius:5px;
+	}
+	.input-search{
+		border-radius:15px;
+		margin:0 0.5em;
+		width:95%;
+		background-color:#f8f9fa;
+	}
+	
+	input[type='text']{
+	    text-align:center;
+	}
+	
+	input[type='text']:focus{
+	    text-align:left;
+	}
+	
+	.wrapper {
+		position:relative;
+		height: 1rem;
+		width: 100%;
+		overflow: hidden;
+		margin:0.3em auto;
+		border-bottom:1px solid #ccc;
+		background-color:#fff;
+	}
+	.wrapper .scroller {
+		position:absolute
+	}
+	.wrapper .scroller li {
+		height: 1rem;
+		color:#333;
+		float: left;
+		line-height: 1rem;
+		font-size: .4rem;
+		text-align: center
+	}
+	.wrapper .scroller li a{
+		color:#333;
+		display:block;
+		margin:0 .3rem;
+		padding:0 .1rem
+	}
+	.wrapper .scroller li.cur a{
+		color:#1cbb9b;
+		height:.9rem;
+		border-bottom:.1rem solid #1cbb9b
+	}
+	ol,ul{list-style:none}	
+	
+	body,div,ul,ol,li{margin:0;padding:0}
+	
+	.tags-mini span{
+		padding: 0.15em 1em;
+    	margin: 0.1em;
+		border-radius:5px;
+		border-color: #efb239 !important;
+		vertical-align: middle;
+		text-align: center;
+		white-space: nowrap;
+		border: 1px solid transparent;
+		color:#efb239;
+		display: inline-block;		
+	}
+	
+	.title{}
+	
+	.price span{
+		color:#e2175b;
+		font-size:1.5em;
+		font-weight:600;
+	}
+	.footmenu{
+		position:fixed; 
+		bottom:0; 
+		left:0; 
+		width:100%; 
+		z-index:900; 
+		padding:1em;
+		border-top:1px solid #999999;
+	}
+	.on{
+		color:#efb239;
+		font-weight:600;
+	}
+	</style>
+</head>
+<body>
+
+<div id="listdiv">
+	<div id="listbox">
+		<a href="{:url('activity/detail',['id'=>$info1.id])}">
+			<div class="bg-light mar-top">
+				<div class="row title bord-btm">
+					<div class="col-xs-7 pad-all">{$shop1.shopname}</div>
+					<div class="col-xs-5 pad-all">活动日期：{$info1.execution_time}	</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-3 pad-all text-center">
+						<img class="img-md jiao" src='{$info1.headimgs}?x-oss-process=style/16-9'>
+					</div>
+					<div class="col-xs-9 pad-ver">
+						<p class="text-bold">【{$info1.destination}】{$info1.title}</p>
+						<div class="tags-mini">
+							{volist name="type1" id="t"}
+							<span>{$t.name}</span>
+							{/volist}
+						</div>
+						<div class="row price pad-top">
+							<div class="col-xs-7">建议零售价<span>￥{$price1.price}</span></div>
+							<div class="col-xs-5">利润<span>￥{$price1.price-$price1.cost}</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</a>
+		<a href="{:url('activity/detail',['id'=>$info2.id])}">
+			<div class="bg-light mar-top">
+				<div class="row title bord-btm">
+					<div class="col-xs-7 pad-all">{$shop2.shopname}</div>
+					<div class="col-xs-5 pad-all">活动日期：{$info2.execution_time}	</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-3 pad-all text-center">
+						<img class="img-md jiao" src='{$info2.headimgs}?x-oss-process=style/16-9'>
+					</div>
+					<div class="col-xs-9 pad-ver">
+						<p class="text-bold">【{$info2.destination}】{$info2.title}</p>
+						<div class="tags-mini">
+							{volist name="type2" id="t"}
+							<span>{$t.name}</span>
+							{/volist}
+						</div>
+						<div class="row price pad-top">
+							<div class="col-xs-7">建议零售价<span>￥{$price2.price}</span></div>
+							<div class="col-xs-5">利润<span>￥{$price2.price-$price2.cost}</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</a>
+		<a href="{:url('activity/detail',['id'=>$info3.id])}">
+			<div class="bg-light mar-top">
+				<div class="row title bord-btm">
+					<div class="col-xs-7 pad-all">{$shop3.shopname}</div>
+					<div class="col-xs-5 pad-all">活动日期：{$info3.execution_time}	</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-3 pad-all text-center">
+						<img class="img-md jiao" src='{$info3.headimgs}?x-oss-process=style/16-9'>
+					</div>
+					<div class="col-xs-9 pad-ver">
+						<p class="text-bold">【{$info3.destination}】{$info3.title}</p>
+						<div class="tags-mini">
+							{volist name="type3" id="t"}
+							<span>{$t.name}</span>
+							{/volist}
+						</div>
+						<div class="row price pad-top">
+							<div class="col-xs-7">建议零售价<span>￥{$price3.price}</span></div>
+							<div class="col-xs-5">利润<span>￥{$price3.price-$price3.cost}</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+<div class="pad-all" style="height:15em;"></div>
+<div class="footmenu row text-center bg-gray-light">
+	<a href="{:url('mobile/activity/index')}">
+		<span class="col-xs-4 on">
+			<i class="ion-grid icon-2x"></i><br>
+			发现
+		</span>
+	</a>
+	<a href="{:url('mobile/shop/index')}">
+		<span class="col-xs-4">
+			<i class="ion-compose icon-2x"></i><br>
+			管理小店
+		</span>
+	</a>
+	<a href="{:url('mobile/index/ask')}" data-page="ask">
+		<span class="col-xs-4">
+			<i class="ion-chatbubble-working icon-2x"></i><br>
+			有疑问找我
+		</span>
+	</a>
+</div>
+<script>
+var dropload
+$(function(){
+	$('.wrapper').navbarscroll()
+	nowtags=0;
+})
+
+$('#tagslist a').click(function(){
+	var that=$(this);
+	nowtags=that.attr('data-id');
+	page=1;	
+	url= "{:url('mobile/activity/getActivityListApi')}"
+
+	$.get(url,{page:page,tagsid:nowtags},function(data){
+		if(data.status==1){
+			$('#listdiv').show();
+			$('#emptylist').hide();
+			var html=template('item-temp',data)
+			$('#listbox').html(html)
+			page=1
+		}else{
+			$('#emptylist').show();
+		}
+	})
+})
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+array (
+  'appid' => 'wx5a4dd3805c7c738f',
+  'bank_type' => 'CCB_DEBIT',
+  'cash_fee' => '10',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'Y',
+  'mch_id' => '1470204002',
+  'nonce_str' => 'mubrfhvnhbck1u3d3j6mulo086py25te',
+  'openid' => 'omP8Nwp8fsm_m1HO3RgTcUxYZi8Y',
+  'out_trade_no' => '1523361173',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '1601BF133535FEDFCA0D281651FC23A3',
+  'time_end' => '20180410195309',
+  'total_fee' => '10',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000066201804106004068449',
+)

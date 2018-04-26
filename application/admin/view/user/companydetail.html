@@ -1,0 +1,58 @@
+{layout name="nohead"}
+<style>
+.bottom {
+    position: fixed;
+    bottom: 0;
+    height:4em;
+	text-align:center;
+	width:100%;
+}
+.bottom span{
+	width:50%;
+	background-color: #F88F00;
+    color: #fff;
+	padding:1em;
+}
+</style>
+<div class="panel pad-top">
+	<div class="text-warning pad-top pad-hor">{$info.name}</div>
+	<p class="pad-all row">
+		<span class="col-xs-6">所属行业：{$info.industrytxt}</span>
+		<span class="col-xs-6">发布：{$info.create_time}</span>
+	</p>
+</div>
+
+
+
+<div class="panel pad-all">
+	<p>联系电话：{$info.tel}</p>
+	<p>投递邮箱：{$info.email}</p>
+	<p>联系电话：{$info.qq}</p>
+	<p>公司地址：{$info.address}</p>
+</div>
+
+<div class="panel pad-all">
+	<p class="text-warning text-2x bold-btm pad-btm">企业介绍</p>
+	<div class="pad-top">{$info.info}</div>
+</div>
+{notempty name="upload"}
+<div class="panel pad-all">
+	<p class="text-warning text-2x bold-btm pad-btm">企业上传的资料</p>
+	<div class="pad-top">{volist name="upload" id="v"}<img src="{$v.url}" class="img-responsive"/>{/volist}</div>
+</div>
+{/notempty}
+{eq name="info.status" value="0"}
+<div class="bottom">
+	<button class="btn btn-success btn-lg" onclick="ck(1)">审核通过</button>
+	<button class="btn btn-danger btn-lg"  onclick="ck(2)">审核不通过</button>
+</div>
+{/eq}
+<script>
+function ck(s){
+	$.post("{:url('job/verify')}",{id:"{$info.id}",status:s},function(data){
+		layer.alert(data.msg,function(){
+			parent.location.reload();
+		});
+	})
+}
+</script>

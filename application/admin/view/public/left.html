@@ -1,0 +1,55 @@
+<nav id="mainnav-container">
+			<div id="mainnav">
+				<!--Menu-->
+				<div id="mainnav-menu-wrap">
+					<div class="nano">
+						<div class="nano-content">
+							<!--Profile Widget-->
+							<div id="mainnav-profile" class="mainnav-profile">
+								<div class="profile-wrap">
+									<div class="pad-btm">										
+										<img class="img-circle img-sm img-border" src="__NIMG__/profile-photos/1.png">
+									</div>
+									<a href="#" class="box-block"> 									
+										<p class="mnp-name">{$userinfo.name}</p> 
+										<span class="mnp-desc">
+										{eq name="userinfo.role" value="1"}管理员{/eq}
+										{eq name="userinfo.role" value="2"}业务{/eq}
+										{eq name="userinfo.role" value="4"}商家{/eq}
+										</span>
+									</a>
+								</div>
+							</div>
+						
+							<ul id="mainnav-menu" class="list-group">
+								<li class="list-divider"></li>
+								<li>									
+									<a href="{:url('index/index')}" >
+										<i class="ion-home"></i>首页
+									</a>
+								</li>
+								{volist name="leftMenu" id="v"}
+								<li {eq name="menuinfo.controller" value="$v['model']"}class="active"{/eq}>
+									<a href="#" >
+										<i class="{$v['icon']}"></i>
+										<span class="menu-title">{$v['name']}</span>
+										<i class="arrow"></i>
+									</a>									
+									{notempty name="v.son"}
+									<ul class="collapse">
+										{volist name="v.son" id="s"}										
+											<li {eq name="menuinfo.action" value="$s['action']"}class="active-link"{/eq}>
+												<a href="{:url($s.url)}">{$s.name}</a>
+											</li>
+										{/volist}
+									</ul>
+									{/notempty}
+								</li>
+								{/volist}
+								<li class="list-divider"></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>

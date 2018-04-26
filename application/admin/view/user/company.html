@@ -1,0 +1,82 @@
+{layout name="layout"}
+
+<div class="panel">
+	<div class="panel-body">
+		<div class="pad-btm form-inline">
+			<div class="row">
+				<div class="col-sm-6 table-toolbar-left">
+					<button id="demo-btn-addrow" class="btn btn-purple">
+						<i class="ion-plus"></i> 添加
+					</button>
+					<button class="btn btn-default">
+						<i class="ion-ios-printer-outline"></i> 打印
+					</button>
+					<button class="btn btn-default">
+						<i class="ion-share"></i> 导出表格
+					</button>
+				</div>
+				<div class="col-sm-6 table-toolbar-right">
+					<div class="form-group">
+						<input id="keyword" type="text" placeholder="请输入公司名称" class="form-control" autocomplete="off">
+					</div>
+					<button class="btn btn-default">
+						<i class="ion-search"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>公司名称</th>
+						<th>联系人</th>
+						<th>联系电话</th>
+						<th>注册时间</th>
+						<th>管理操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="list" id="v"}
+						<tr>
+							<td onclick="view({$v.info.id})">{$v.info.name}</td>
+							<td>{$v.info.contact}</td>
+							<td>{$v.info.tel}</td>
+							<td>{$v.create_time}</td>
+							<td>
+								<a href="{:url('user/companyadd',['id'=>$v.id])}" class="btn btn-warning">修改</a>
+							</td>
+						</tr>
+					{/volist}
+				</tbody>
+			</table>
+			<div class="text-center">
+				{$list->render()}
+			</div>			
+		</div>		
+	</div>
+</div>
+
+<script>
+function view(id){
+	layer.open({
+		  type: 2,
+		  title:false,
+		  shadeClose: true,
+		  shade: 0.9,
+		  area: ['480px', '90%'],
+		  content:"{:url('user/companydetail')}/id/"+id
+		}); 
+}
+
+function appoint(id){
+	layer.open({
+		  type: 2,
+		  title:false,
+		  shadeClose: true,
+		  shade: 0.9,
+		  area: ['60%', '90%'],
+		  content:"{:url('user/appointproxy')}/id/"+id
+		}); 
+}
+</script>

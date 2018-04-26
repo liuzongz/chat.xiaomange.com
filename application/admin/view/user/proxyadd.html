@@ -1,0 +1,123 @@
+{layout name="layout" /}
+<div class="row">
+	<div class="col-xs-12 col-md-8 col-lg-6">
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">代理人基本资料</h3>
+			</div>
+			<div class="panel-body">								
+				<form class="form-horizontal form-padding">
+					<div class="form-group">
+						<label class="col-md-3 control-label">代理的省</label>
+						<div class="col-md-9">
+							<select id="prov" class="form-control select2-hidden-accessible" >
+								<option value="0">一级菜单</option>
+									{volist name="prov" id="v"}
+										<option value="{$v.id}"  {notempty name="info"}{eq name="v.id" value="$info.prov"}selected="selected"{/eq}{/notempty}>{$v.name}</option>
+									{/volist}
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">代理的市</label>
+						<div class="col-md-9">
+							<select id="city" class="form-control select2-hidden-accessible" >
+								<option value="0">全省</option>
+								<div id="option-city"></div>							
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">代理的县</label>
+						<div class="col-md-9">
+							<select id="area" class="form-control select2-hidden-accessible" >
+								<option value="0">全市</option>
+								<div id="option-area"></div>								
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="demo-text-input">代理人姓名</label>
+						<div class="col-md-9">
+							<input type="text" id="name" class="form-control" placeholder="代理人真实姓名" value="{$info.name|default=''}">
+							<small class="help-block"></small>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="demo-text-input">代理人密码</label>
+						<div class="col-md-9">
+							<input type="text" id="password" class="form-control" value="">
+							<small class="help-block">默认密码为888888</small>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="demo-text-input">代理人电话</label>
+						<div class="col-md-9">
+							<input type="text" id="tel" class="form-control" placeholder="联系电话，一般是手机号" value="{$info.tel|default=''}">
+							<small class="help-block"></small>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label">上级代理人</label>
+						<div class="col-md-9">
+							<select id="fid" class="form-control select2-hidden-accessible" >
+								<option value="0">一级代理</option>
+									{volist name="proxy" id="v"}
+										<option value="{$v.uid}"  {notempty name="info"}{eq name="v.uid" value="$info.fid"}selected="selected"{/eq}{/notempty}>{$v.name}</option>
+									{/volist}
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-7 col-lg-offset-3">
+							<input type="hidden" id="id" value="{$info.uid|default='0'}"/>
+							<button type="button" class="btn btn-primary" id="submit">提交</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>					
+
+<script type="text/javascript">
+	$('#submit').click(function(){
+		var url="{:url('user/proxyadd')}";
+		$.post(url,{
+			name:$('#name').val(),
+			password:$('#password').val(),
+			tel:$('#tel').val(),
+			prov:$('#prov').val(),
+			city:$('#city').val(),
+			area:$('#area').val(),
+			fid:$('#fid').val(),
+			id:$('#id').val()
+		},function(data){
+			layer.alert(data.msg,function(){
+				location.href="{:url('User/proxy')}"
+			});
+		})
+	})
+	$('#prov').change(function(){
+		var that=$(this);
+		var prov=that.val();
+		$.post("{:url('user/getCityArray')}",{id:prov},function(data){
+			var html=template('option-temp',data);
+			$('#city').html(html).trigger("change");
+		})
+	})
+	$('#city').change(function(){
+		var that=$(this);
+		var prov=that.val();
+		$.post("{:url('user/getCityArray')}",{id:prov},function(data){
+			var html=template('option-temp',data);
+			$('#area').html(html).trigger("change");
+		})
+	})
+</script>
+<script id="option-temp" type="html/text">
+	<option value="0">整个区域</option>
+	{{each msg as v}}
+		<option value="{{v.id}}">{{v.name}}</option>
+	{{/each}}
+</script>

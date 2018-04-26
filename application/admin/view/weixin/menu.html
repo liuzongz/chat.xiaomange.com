@@ -1,0 +1,301 @@
+{layout name="layout" /}
+<script src="http://www.yuanzigo.com/static/Plus/template.js"></script>
+		<!--END NAVBAR-->
+		<div class="boxed">
+			<!--CONTENT CONTAINER-->
+			<div id="content-container">
+				<!--Page Title-->
+				<div id="page-title">
+					<h1 class="page-header text-overflow">微信自定义菜单管理</h1>
+				</div>
+				<!--End page title-->
+				<div class="pad-btm form-inline">
+					<div class="row">
+						<div class="col-sm-6 table-toolbar-left">
+							<div class="btn-group marginL">
+								<button class="btn btn-success marginL" data-id="999">所有人</button>
+								<button class="btn btn-primary btn-icon" data-id="999"><i class="ion-share"></i></button>
+							</div>
+							{volist name="group" id="v"}
+							<div class="btn-group marginL">
+								<button class="btn btn-success marginL" data-id="{$v['id']}">{$v.name}</button>
+								<button class="btn btn-primary btn-icon" data-id="{$v['id']}"><i class="ion-share"></i></button>
+							</div>
+							{/volist}
+						</div>
+					</div>
+				</div>
+				<!--Page content-->
+				<div class="row">
+				<!-- 自定义菜单列表 -->
+					<div class="col-xs-6">
+						<div class="panel row" style="height:550px;vertical-align:bottom;">
+							{volist name="list" id="v"}
+								<div class="col-xs-6 col-md-4" style="padding-top:500px;">
+									<div class="dropup">
+										<button class="btn btn-default dropdown-toggle" style="width:100%;" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											{$v.title}
+										</button>
+											<ul class="dropdown-menu w100" aria-labelledby="dropdownMenu2">
+												<li data-id="{$v.id}" data-act='del' class="list-group-item-danger"><a href="javascript:;" class="w100">删除一级菜单</a></li>
+												<li data-id="{$v.id}" class="list-group-item-warning"><a href="javascript:;" class="w100">修改一级菜单</a></li>
+												{volist name="v.son" id="vs"}
+												<li data-id="{$vs.id}"><a href="javascript:;" class="w100">{$vs.title}</a></li>
+												{/volist}
+											</ul>
+									</div>
+								</div>
+							{/volist}
+						</div>
+					</div>
+					<!-- 自定义菜单列表End -->
+					<!-- 自定义菜单添加 -->
+					<div class="col-xs-6">
+						<div class="panel">
+							<!--Data Table-->
+							<div class="panel-body">								
+								<div class="panel">
+					            <div class="panel-heading">
+					                <h3 class="panel-title">添加菜单</h3>
+					            </div>
+					            <form class="panel-body form-horizontal form-padding">
+					            <div id="formtemp">
+					            	 <!--多选项-->
+					                <div class="form-group">
+					                    <label class="col-md-3 control-label">角色分组</label>
+					                    <div class="col-md-9">
+					                    <select id="tag" class="form-control select2-hidden-accessible" >
+											<option value="0">所有用户</option>
+											{volist name="group" id="v"}
+												<option value="{$v.id}">{$v.name}</option>
+											{/volist}
+										</select>
+					                    </div>
+					                </div>
+					                <!--多选项-->
+					                <div class="form-group">
+					                    <label class="col-md-3 control-label">上级菜单</label>
+					                    <div class="col-md-9">
+					                    <select id="pid" class="form-control select2-hidden-accessible" >
+											<option value="0">一级菜单</option>
+											{volist name="list" id="v"}
+												<option value="{$v.id}">{$v.title}</option>
+											{/volist}
+										</select>
+					                    </div>
+					                </div>
+					                <!--多选项-->
+					                <div class="form-group">
+					                    <label class="col-md-3 control-label">菜单类型</label>
+					                    <div class="col-md-9">
+					                    	<select id="type" class="form-control select2-hidden-accessible">
+					                    		<option value="0">一级菜单不用选择</option>
+												<option value="view">链接</option>
+												<option value="click">关键字回复</option>
+											</select>
+											<small class="help-block">类似为关键字回复时，需要到关键字中心中添加对应的关键词哦</small>
+					                    </div>
+					                </div>
+					
+					                <!--Text Input-->
+					                <div class="form-group">
+					                    <label class="col-md-3 control-label" for="demo-text-input">菜单名称</label>
+					                    <div class="col-md-9">
+					                        <input type="text" id="title" class="form-control" placeholder="菜单名称">
+					                        <small class="help-block">尽量简洁</small>
+					                    </div>
+					                </div>
+					                <!--Text Input-->
+					                <div class="form-group" id="keywordgroup" style="display:none">
+					                    <label class="col-md-3 control-label" for="demo-text-input">关键词</label>
+					                    <div class="col-md-9">
+					                        <input type="text" id="keyword" class="form-control" placeholder="点击后回复哪个关键词的内容">
+					                    </div>
+					                </div>
+					                <!--Text Input-->
+					                <div class="form-group" id="urlgroup">
+					                    <label class="col-md-3 control-label" for="demo-text-input">菜单链接</label>
+					                    <div class="col-md-9">
+					                    	<input type="hidden" id="menuid" value="0"/>
+					                        <input type="text" id="url" class="form-control" placeholder="菜单的链接">					                        
+					                    </div>
+					                </div>
+					                </div>					
+					                <div class="form-group">
+										<div class="col-lg-7 col-lg-offset-3">										
+											<button type="button" class="btn btn-primary" id="submit">提交</button>
+										</div>
+									</div>
+					            </form>
+					            <!--===================================================-->
+					            <!-- END BASIC FORM ELEMENTS -->
+					
+					        </div>
+							</div>
+							<!--End Data Table-->
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+			<!--End page content-->
+		</div>
+		<!--END CONTENT CONTAINER-->
+
+		<!--MAIN NAVIGATION-->
+		<include file='Public/left' />
+		<!--END MAIN NAVIGATION-->
+	</div>
+	<!-- SCROLL PAGE BUTTON -->
+	<button class="scroll-top btn">
+		<i class="pci-chevron chevron-up"></i>
+	</button>
+	</div>
+	<!-- END OF CONTAINER -->
+	
+	<!-- TEMP STAR-->
+
+    <script id="form-temp" type="text/html">	
+<!--多选项-->
+<div class="form-group">
+	<label class="col-md-3 control-label">角色分组</label>
+	<div class="col-md-9">
+		<select id="tag" class="form-control select2-hidden-accessible" >
+			<option value="0">所有用户</option>
+			{{each group as g}}
+			<option value="{{ g.id }}" {{ if info.tag==g.id }}selected{{/if}}>{{g.name}}</option>
+			{{/each}}
+		</select>
+	</div>
+</div>
+<!--多选项-->
+<div class="form-group">
+	<label class="col-md-3 control-label">上级菜单</label>
+	<div class="col-md-9">
+		<select id="pid" class="form-control select2-hidden-accessible" >
+			<option value="0">一级菜单</option>
+			{{each menuone as m}}
+			<option value="{{m.id}}" {{ if info.pid==m.id }}selected{{/if}}>{{m.title}}</option>
+			{{/each}}
+		</select>
+	</div>
+</div>
+<!--多选项-->
+<div class="form-group">
+	<label class="col-md-3 control-label">菜单类型</label>
+	<div class="col-md-9">
+		<select id="type" class="form-control select2-hidden-accessible">
+			<option value="0">一级菜单不用选择</option>
+			<option value="view" {{ if info.type=='view' }}selected{{/if}}>链接</option>
+			<option value="click" {{ if info.type=='click' }}selected{{/if}}>关键字回复</option>
+		</select>
+		<small class="help-block">类似为关键字回复时，需要到关键字中心中添加对应的关键词哦</small>
+	</div>
+</div>
+
+<!--Text Input-->
+<div class="form-group">
+	<label class="col-md-3 control-label" for="demo-text-input">菜单名称</label>
+	<div class="col-md-9">
+		<input type="text" id="title" class="form-control" placeholder="菜单名称" value="{{info.title}}">
+		<small class="help-block">尽量简洁</small>
+	</div>
+</div>
+<!--Text Input-->
+<div class="form-group" id="keywordgroup" style="display:none">
+	<label class="col-md-3 control-label" for="demo-text-input">关键词</label>
+	<div class="col-md-9">
+		<input type="hidden" id="menuid" value="{{info.id}}"/>
+		<input type="text" id="keyword" class="form-control" placeholder="点击后回复哪个关键词的内容" value="{{info.keyword}}">
+	</div>
+</div>
+<!--Text Input-->
+<div class="form-group" id="urlgroup">
+	<label class="col-md-3 control-label" for="demo-text-input">菜单链接</label>
+	<div class="col-md-9">
+		<input type="text" id="url" class="form-control" placeholder="菜单的链接"  value="{{info.url}}">
+	</div>
+</div>
+	</script>
+	<!-- TEMP END -->
+	
+	
+	<script type="text/javascript">
+	$('#type').change(function(){
+		var that=$(this);
+		var id=that.val();
+		if(id=='click'){
+			$('#urlgroup').css('display','none');
+			$('#keywordgroup').css('display','block');
+		}else{
+			$('#urlgroup').css('display','block');
+			$('#keywordgroup').css('display','none');
+			
+		}
+	});
+	
+	$('#submit').click(function(){
+		var url="{:url('Weixin/menuAdd')}";
+		$.post(url,{
+			id:$('#menuid').val(),
+			pid:$('#pid').val(),
+			tag:$('#tag').val(),
+			type:$('#type').val(),
+			title:$('#title').val(),
+			keyword:$('#keyword').val(),
+			url:$('#url').val(),
+		},function(data){
+			layer.msg(data.msg,function(){
+				//location.href="{:url('admin/Weixin/menu')}"
+			});
+		})
+	})
+	
+	$('.dropdown-menu li').click(function(){
+		var id=$(this).attr('data-id');
+		var act=$(this).attr('data-act');
+		if(act=='del'){
+			$.post("{:url('Weixin/menuDel')}",{id:id},function(data){
+				console.log(data);
+				if(data.status==1){
+					
+					layer.msg(data.msg,function(){
+						location.reload();
+					})
+				}else{
+					layer.msg(data.msg);
+				}
+			})
+		}else{
+			$.post("{:url('Weixin/menuGetById')}",{id:id},function(data){
+				var html = template('form-temp',data);
+				$('#formtemp').empty();
+				$('#formtemp').append(html);
+			});
+		}
+		
+	})
+	$('.form-inline .btn-group .btn-success').click(function(){
+		var tag=$(this).attr('data-id');
+		location.href="{:url('Weixin/menu')}/tag/"+tag;
+	});
+	$('.form-inline .btn-group .btn-primary').click(function(){
+		var tag=$(this).attr('data-id');
+		if(tag==999){
+			$.post("{:url('Weixin/menuToWeixin')}",{tag:tag},function(data){
+				layer.msg(data.msg);
+			})
+		}
+		if(tag==0){
+			$.post("{:url('Weixin/menuToWeixin')}",{tag:tag},function(data){
+				layer.msg(data.msg);
+			})
+		}else{
+			console.log(tag);
+			$.post("{:url('Weixin/menuDiy')}",{tag:tag},function(data){
+				layer.msg(data.msg);
+			})
+		}
+	})
+	</script>

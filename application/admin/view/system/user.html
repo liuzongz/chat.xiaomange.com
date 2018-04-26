@@ -1,0 +1,142 @@
+{layout name="layout" /}
+<div class="panel" id="listdiv" {notempty name="info"}style="display:none"{/notempty}>
+	<div class="panel-body">
+		<div class="pad-btm form-inline">
+			<div class="row">
+				<div class="col-sm-6 table-toolbar-left">
+					{volist name="rule" id="v"}	
+						<a href="{:url('system/user',['r'=>$v.id])}" class="btn {eq name='rl' value='$v.id'}btn-primary{else/}btn-default{/eq}">{$v.name}</a>
+					{/volist}
+				</div>
+				<div class="col-sm-6 table-toolbar-right">
+					<button class="btn btn-warning" onclick="add()">
+						<i class="ion-plus"></i> 添加用户
+					</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+					<th>店铺ID</th>
+						<th>昵称</th>
+						<th>用户组</th>
+						<th>注册时间</th>
+						<th>登录时间</th>
+						<th>管理操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="list" id="v"}
+						<tr>
+							<td>{$v.rule_id}</td>
+							<td>{in name="v.rule" value='3,4'}{$v.shop.shopname}{else/}{$v.name}{/in}</td>
+							
+							
+							<td>{$v.ruletxt}</td>
+							<td>{$v.create_time}</td>
+							<td>{$v.update_time}</td>
+							<td><a href="{:url('system/user',['id'=>$v.id])}" class="btn btn-warning">修改</a></td>
+						</tr>
+					{/volist}
+				</tbody>
+			</table>
+			
+			<div class="text-center">
+				{$list->render()}
+			</div>			
+		</div>		
+	</div>
+</div>
+
+<div class="row" id="adddiv" {notempty name="info"}style="display:block"{else/}style="display:none"{/notempty}>
+	<div class="col-xs-12 col-md-8 col-lg-6">
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">用户基本资料</h3>
+			</div>
+			<div class="panel-body">								
+				<div class="form-horizontal form-padding">
+					<div class="form-group">
+						<label class="col-md-3 control-label">所属分组</label>
+						<div class="col-md-9">
+							<select id="rule" class="form-control select2-hidden-accessible" >
+								<option value="0">请选择</option>
+									{volist name="rule" id="v"}
+										<option value="{$v.id}"  {notempty name="info"}{eq name="v.id" value="$info.rule"}selected="selected"{/eq}{/notempty}>{$v.name}</option>
+									{/volist}
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="demo-text-input">登录名</label>
+						<div class="col-md-9">
+							<input type="text" id="name" class="form-control" placeholder="登录名" value="{$info.name|default=''}">
+							<small class="help-block"></small>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="demo-text-input">登陆密码</label>
+						<div class="col-md-9">
+							<input type="text" id="password" class="form-control" value="">
+							<small class="help-block">默认密码为888888</small>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-md-3 control-label" for="demo-text-input">店铺名称</label>
+						<div class="col-md-9">
+							<input type="text" id="shopname" class="form-control" placeholder="比如：周游天下" value="{$info.shopname|default=''}">
+							<small class="help-block"></small>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-7 col-lg-offset-3">
+							<input type="hidden" id="id" value="{$info.uid|default='0'}"/>
+							<button type="button" class="btn btn-primary" id="submit">提交</button>
+							<button class="btn btn-default" onclick="cancel()">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+function seeImg(img){
+	layer.open({
+		  type: 1,
+		  shade: [0.9, '#000000'],
+		  closeBtn: 0, //不显示关闭按钮
+		  anim: 2,
+		  shadeClose: true, //开启遮罩关闭
+		  content: '<img src="'+img+'">'
+		});
+}
+
+	$('#submit').click(function(){
+		var url="{:url('system/useradd')}";
+		$.post(url,{
+			name:$('#name').val(),
+			password:$('#password').val(),
+			shopname:$('#shopname').val(),
+			rule:$('#rule').val(),
+			id:$('#id').val()
+		},function(data){
+			layer.alert(data.msg,function(){
+				location.href="{:url('system/user')}"
+			});
+		})
+	})
+	function add(){
+		$('#listdiv').hide();
+		$('#adddiv').show();
+	}
+	function cancel(){
+		$('#listdiv').show();
+		$('#adddiv').hide();
+	}
+</script>

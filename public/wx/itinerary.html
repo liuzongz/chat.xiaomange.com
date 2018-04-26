@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>原子出发</title>
+	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+	<meta name="viewport" content="height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="/static/nifty/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/static/nifty/css/nifty.css" />
+	<link rel="stylesheet" href="/static/nifty/plugins/ionicons/css/ionicons.min.css"> 
+	<script src="/static/nifty/js/jquery-2.2.4.min.js"></script>
+	<script src="/static/nifty/js/bootstrap.min.js"></script>
+	<script src="/static/nifty/js/nifty.min.js"></script>
+	<script src="/static/Plus/Layer/layer.js"></script>
+	<script src="/static/Plus/template.js"></script>
+	<script src="/static/Plus/jquery.cookie.js"></script>
+	<script src="token.js"></script>
+	<style>
+	.video-responsive{
+		width:100%;
+		background-color:#000;
+	}
+	.wenzi{
+	    position: fixed;
+	    width: 100%;
+	    text-align: center;
+	    z-index:1;
+	}
+	.taba{
+		padding:0.5em 2em;
+		margin:0.5em 0;
+	}
+	
+	a.active{
+		border-bottom:3px solid #888888;
+	}
+	.footernav{
+		position:fixed;
+	    bottom:0;
+		width:100%;
+		z-index:999;
+	}
+	#ordernum{
+		position:fixed;
+	    bottom:0;
+		width:100%;
+		display:none;
+		z-index:900;
+	}
+	.zhezhao{
+		background-color:#000;
+		z-index:800;
+		position:absolute;
+		width:100%;
+		top:0;
+		bottom:0;
+		left:0;
+		opacity: 0.8;
+		display:none;
+	}
+	</style>
+</head>
+<body>
+	<div id="itinerary" style="z-index:100">
+		<div class="timeline">
+			<div class="timeline-header">
+				<div class="timeline-header-title bg-primary">行程</div>
+			</div>
+			<div id="itilist"></div>
+		</div>
+	</div>
+	<div id="ordernum" class="bg-light">
+		<p class="pad-ver bord-btm">预定席位</p>
+		<div id="formatdiv"></div>
+	</div>
+	<div class="footernav row text-center bord-top">
+		<span class="col-xs-6 btn btn-default pad-ver">每席<span id="baseprice" style="font-size:1.2em " class="mar-rgt">0</span>起</span>
+		<span class="col-xs-6 btn btn-warning pad-ver prebtn" style="font-size:1.2em ">马上预定</span>
+		<span class="col-xs-6 btn btn-warning pad-ver gobtn" style="font-size:1.2em;display:none ">马上预定</span>
+	</div>
+	
+	<div class="zhezhao"></div>
+</body>
+<script id="iti-temp" type="text/html">
+{{each data as v}}
+	<div class="timeline-entry">
+		<div class="timeline-stat">
+		<div class="{{v.icon}} icon-2x"></div>
+			<div class="timeline-time">{{v.date}}</div>
+		</div>
+		<div class="timeline-label">
+			<p class="mar-no pad-btm">{{v.title}}</p>
+			<blockquote class="bq-sm bq-open mar-no">{{#v.intro}}</blockquote>
+		</div>
+	</div>
+{{/each}}
+</script>
+<script id="format-temp" type="text/html">
+{{each data as v}}
+<div class="row formats" data-format-id="{{v.format_id}}">
+	<div class="col-xs-3">
+		{{v.name}}<br>￥{{v.price}}
+	</div>
+	<div class="col-xs-4 text-muted text-sm pad-ver">
+		{{v.intro}}
+	</div>
+	<div class="col-xs-1 pad-ver plus" data-format-id="{{v.format_id}}">
+		<i class="ion-plus icon-2x"></i>
+	</div>
+	<div class="col-xs-3 pad-ver text-center">
+		<span class="pad-hor text-2x" id="format_num_{{v.format_id}}">0</span>
+	</div>
+	<div class="col-xs-1 pad-ver minus" data-format-id="{{v.format_id}}">
+		<i class="ion-minus icon-2x"></i>
+	</div>
+</div>
+{{/each}}
+</script>
+<script>
+var width=$(window).width();
+var height=$(window).height();
+var id=0;
+$(function(){
+	id=getUrlGet('id');
+	$('#itinerary').css('height',height*0.9+'px');
+	$.get("https://www.yuanzigo.com/api/activity/detail?id="+id+"&token="+token,function(data){
+		if(data.code==1){
+			$('#baseprice').html('<i class="ion-social-yen" style="padding:0 0.5em;"></i>'+data.data.price);
+		}
+	})
+	$.get("https://www.yuanzigo.com/api/activity/format?id="+id+"&token="+token,function(data){
+		if(data.code==1){
+			console.log(data)
+			var html=template('format-temp',data);
+			$('#formatdiv').html(html)
+		}
+	})
+	$.get("https://www.yuanzigo.com/api/activity/itinerary?id="+id+"&token="+token,function(data){
+		if(data.code==1){
+			console.log(data)
+			var html=template('iti-temp',data);
+			$('#itilist').html(html)
+		}
+	})
+})
+
+$('.prebtn').click(function(){
+	$('.zhezhao').css('display','block');
+	$('#ordernum').css('bottom',height*0.07+'px').css('display','block');
+	$('.gobtn').css('display','block');
+	$('.prebtn').css('display','none');
+})
+$('.zhezhao').click(function(){
+	$('.zhezhao').css('display','none');
+	$('#ordernum').css('display','none');
+	$('.gobtn').css('display','none');
+	$('.prebtn').css('display','block');
+})
+$('#formatdiv').delegate(".plus","click",function(){
+		var id=$(this).attr('data-format-id');
+		var now_num=parseInt($('#format_num_'+id).text());
+		$('#format_num_'+id).text(now_num+1);
+})
+$('.gobtn').click(function(){
+	var formattxt='';
+	$('.formats').each(function(){
+		var that=$(this);
+		var fid=that.attr('data-format-id');
+		var count=$('#format_num_'+fid).text();
+		if(formattxt==''){
+			formattxt='{"formatId":'+fid+',"quantity":'+count+'}';
+		}else{
+			formattxt=formattxt+',{"formatId":'+fid+',"quantity":'+count+'}';
+		}
+	})
+	
+	formattxt='['+formattxt+']';
+	var url="https://www.yuanzigo.com/api/order/create";
+	$.post(url,{activityId:id,token:token,orderInfoDetails:formattxt},function(data){		
+		console.log(data)
+		if(data.data.success==1){
+			location.href="addorder.html?orderid="+data.data.orderId+'&id='+id;
+		}
+	})
+})
+$('#formatdiv').delegate(".minus","click",function(){
+		var id=$(this).attr('data-format-id');
+		var now_num=parseInt($('#format_num_'+id).text());
+		if(now_num>0){
+			now_num=now_num-1;
+		}else{
+			now_num=0;
+		}
+		$('#format_num_'+id).text(now_num);
+})
+</script>
+</html>

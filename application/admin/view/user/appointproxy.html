@@ -1,0 +1,70 @@
+{layout name="nohead"}
+<style>
+.bottom {
+    position: fixed;
+    bottom: 0;
+    height:4em;
+	text-align:center;
+	width:100%;
+}
+.bottom span{
+	width:50%;
+	background-color: #F88F00;
+    color: #fff;
+	padding:1em;
+}
+</style>
+<div class="panel pad-top">
+	<h3 class="pad-hor mar-lft">把<span class="text-warning pad-top pad-hor">{$company.name}</span>指派给：</h3>	
+</div>
+
+<div class="panel pad-all">
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>代理人</th>
+					<th>电话</th>
+					<th>代理地区</th>
+					<th>推荐企业数</th>
+					<th>上级代理</th>
+					<th>注册时间</th>
+					<th>管理操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{volist name="list" id="v"}
+					<tr>
+						<td>{$v.info.name}</td>
+						<td>{$v.info.tel}</td>
+						<td>
+							{notempty name="v.info.prov"}{$v.info.prov|getcity}{/notempty}
+							{notempty name="v.info.city"}-{$v.info.city|getcity}{/notempty}
+							{notempty name="v.info.area"}-{$v.info.area|getcity}{/notempty}
+						</td>
+						<td>{$v.rule_id|getCompanyNumByProxy}</td>
+						<td>{$v.proxy.name}</td>
+						<td>{$v.create_time}</td>
+						<td>
+							<button onclick="appoint({$v.info.id})" class="btn btn-warning">指定</a>
+						</td>
+					</tr>
+				{/volist}
+			</tbody>
+		</table>
+		<div class="text-center">
+			{$list->render()}
+		</div>
+	</div>
+</div>
+
+
+<script>
+function appoint(uid){
+	$.post("{:url('user/appointproxy')}",{uid:uid,id:"{$company.id}"},function(data){
+		layer.alert(data.msg,function(){
+			parent.location.reload();
+		});
+	})
+}
+</script>

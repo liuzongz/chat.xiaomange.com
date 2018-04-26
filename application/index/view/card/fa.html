@@ -1,0 +1,25 @@
+<html>
+<body>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+        <script type="text/javascript">
+        wx.error(function(e){
+        	console.log(e);
+        });
+        // 注入JSSDK配置参数，默认开启所有接口权限
+        wx.config({$options|json_encode});
+        // 当JSSDK初始化完成后，再执行相关操作
+        wx.ready(function () {
+        	  // 接收PHP生成的H5查询JS签名包参数
+        	  var option = {$card_sign};
+
+        	  option.success = function (res) {
+        	    // 成功之后返回结果
+        	    alert(JSON.stringify(res));
+        	  };
+
+        	  // 执行H5事件
+        	  wx.addCard(option);
+        	});
+        </script>
+</body>
+</html>

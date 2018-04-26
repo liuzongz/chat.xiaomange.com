@@ -1,0 +1,56 @@
+{layout name="layout"}
+
+<div class="panel">
+	<div class="panel-body">
+		<div class="pad-btm form-inline">
+			<div class="row">
+				<div class="col-sm-6 table-toolbar-left">					
+					<button class="btn btn-default">
+						<i class="ion-ios-printer-outline"></i> 打印
+					</button>
+					<button class="btn btn-default">
+						<i class="ion-share"></i> 导出表格
+					</button>
+				</div>
+				<div class="col-sm-6 table-toolbar-right">
+					<div class="form-group">
+						<input id="keyword" type="text" placeholder="请输入会员名称" class="form-control" autocomplete="off">
+					</div>
+					<button class="btn btn-default">
+						<i class="ion-search"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>头像</th>
+						<th>昵称</th>
+						<th>积分</th>
+						<th>推荐人</th>
+						<th>注册时间</th>
+						<th>管理操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="list" id="v"}
+						<tr>
+							<td><img src="{$v.info.headimgurl}" class="img-sm img-circle" /></td>
+							<td>{$v.info.name}</td>
+							<td>{$v.info.balance}</td>
+							<td>{$v.proxy.name}</td>
+							<td>{$v.create_time}</td>
+							<td></td>
+						</tr>
+					{/volist}
+				</tbody>
+			</table>
+			<div class="text-center">
+				{$list->render()}
+			</div>			
+		</div>		
+	</div>
+</div>

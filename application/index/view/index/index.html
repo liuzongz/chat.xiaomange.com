@@ -1,0 +1,59 @@
+{layout name="layout"}
+<style>
+.jumbotron{
+	padding-left: 0;
+    padding-right: 0;
+    margin-top: 0;
+    min-height: 30em;
+	background-image:url(__IMG__/bannerbg.jpg);
+	color:#fff;
+}
+</style>
+<div style="background-color:#ffffff">
+	<div class="jumbotron row">
+		<div class="col-lg-3 col-lg-offset-7 bg-light img-yuan text-center" style="height:25em;padding:2em;">
+			
+			<div class="bord-all text-muted">
+				<p class="row pad-hor pad-top">
+					<span class="col-lg-1">
+						<i class="ion-person"></i>
+					</span>
+					<span class="col-lg-9">
+						<input id="username" type="text" class="form-control input-lg bord-no"  placeholder="用户名">
+					</span>
+				</p>
+				<p class="row pad-hor pad-top bord-top">
+					<span class="col-lg-1">
+						<i class="ion-locked"></i>
+					</span>
+					<span class="col-lg-9">
+						<input id="password" type="password" class="form-control input-lg bord-no"  placeholder="密码">
+					</span>
+				</p>
+			</div>
+			<span id="submit" class="btn btn-warning btn-lg img-yuan mar-top" style="width:33%;" onclick="login()">登录</span>
+			<span class="btn btn-default btn-lg img-yuan mar-top" style="width:33%;margin-left:31%">忘记密码</span>
+		</div>
+	</div>
+	<div class="row pad-ver">
+		<div class="col-lg-10 col-lg-offset-1 bord-all mar-ver pad-all img-yuan">
+			<span class="pad-lft">系统公告</span>
+			<span class="pull-right">查看更多<i class="ion-chevron-right mar-hor"></i></span>
+		</div>
+	</div>
+</div>
+<script>
+function login(){
+	var password=$('#password').val();
+	var username=$('#username').val();
+	$.post("{:url('index/login')}",{password:password,username:username},function(data){
+		if(data.status==1){
+			layer.alert(data.msg,function(){
+				location.reload();
+			})
+		}else{
+			layer.alert(data.msg);
+		}
+	})
+}
+</script>

@@ -1,0 +1,109 @@
+{layout name="layout"}
+
+<div class="row">
+	<div class="col-xs-12 col-md-8 col-lg-6">
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">添加管理员</h3>
+			</div>
+			<div class="panel-body">								
+				<form class="form-horizontal form-padding">
+				
+					<div class="form-group">
+						<label class="col-md-3 control-label">用户组</label>
+						<div class="col-md-9">
+							<select id="rule" class="form-control select2-hidden-accessible" >
+								<option value="1" {notempty name="info"}{eq name="info.rule" value="1"}selected="selected"{/eq}{/notempty}>管理员</option>
+								<option value="5" {notempty name="info"}{eq name="info.rule" value="5"}selected="selected"{/eq}{/notempty}>供应商</option>
+								<option value="2" {notempty name="info"}{eq name="info.rule" value="2"}selected="selected"{/eq}{/notempty}>企业</option>
+								<option value="3" {notempty name="info"}{eq name="info.rule" value="3"}selected="selected"{/eq}{/notempty}>内部员工</option>
+								<option value="4" {notempty name="info"}{eq name="info.rule" value="4"}selected="selected"{/eq}{/notempty}>自由职业者</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group" id="unamediv" style="display:none">
+						<label class="col-md-3 control-label">登录名称</label>
+						<div class="col-md-9">
+							<input type="text" id="uname" class="form-control" value="{$info.name|default=''}">
+						</div>
+					</div>					
+					<div class="form-group">
+						<label class="col-md-3 control-label">登录名称</label>
+						<div class="col-md-9">
+							<input type="text" id="name" class="form-control" value="{$info.name|default=''}">
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-md-3 control-label">登录密码</label>
+						<div class="col-md-9">
+							<input type="text" id="password" class="form-control" value="{notempty name='info.password'}******{else/}888888{/notempty}">
+						</div>
+					</div>
+					
+					
+					
+					<div class="form-group">
+						<div class="col-lg-7 col-lg-offset-3">
+							<input type="hidden" id="id" value="{$info.id|default='0'}"/>
+							<button type="button" class="btn btn-primary" id="submit">提交</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>			
+
+<script>
+$('#rule').change(function(){
+	var that=$(this);
+	var rule=that.val();
+	if(rule==2){
+		$('#unamediv').css('display','block');
+		$('#unamediv label').text('企业名称');
+	}
+	if(rule==3){
+		$('#unamediv').css('display','block');
+		$('#unamediv label').text('员工姓名');
+	}
+	if(rule==4){
+		$('#unamediv').css('display','block');
+		$('#unamediv label').text('零工姓名');
+	}
+	if(rule==5){
+		$('#unamediv').css('display','block');
+		$('#unamediv label').text('供应商名称');
+	}
+	if(rule==1){
+		$('#unamediv').css('display','none');
+	}
+})
+
+$('#submit').click(function(){
+	var rule=$('#rule').val();
+	var uname=$('#uname').val();
+	var name=$('#name').val();
+	var password=$('#password').val();
+	var id=$('#id').val();
+	if(rule>1){
+		if (uname == null || uname == undefined || uname == '') { 
+			layer.tips('我不能为空哦', '#uname', {
+				  tips: [2, '#ef5350'],
+				  time: 4000
+			});
+			return false;
+		}
+	}
+	$.post("{:url('member/add')}",{id:id,rule:rule,uname:uname,name:name,password:password},function(data){
+		if(data.status==1){
+			layer.alert(data.msg,function(){
+				location.href="{$jump}"
+			})
+		}else{
+			layer.msg(data.msg);
+		}
+	})
+})
+
+</script>		

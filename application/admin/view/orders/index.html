@@ -1,0 +1,65 @@
+{layout name="layout"}
+<div class="row">
+	<div class="panel">
+		<div class="panel-body ">
+			<div class="pad-all bord-btm">
+				<a href="{:url('Orders/index',['s'=>1])}" class="btn {eq name='status' value='1'}btn-primary{else/} btn-default{/eq}">已支付</a>
+				<a href="{:url('Orders/index',['s'=>9])}" class="btn {eq name='status' value='9'}btn-primary{else/} btn-default{/eq}">待支付</a>
+				<a href="{:url('Orders/index',['s'=>2])}" class="btn {eq name='status' value='2'}btn-primary{else/} btn-default{/eq}">已完成</a>
+				<a href="{:url('Orders/index',['s'=>10])}" class="btn {eq name='status' value='10'}btn-primary{else/} btn-default{/eq}">已过期（下单但未支付）</a>
+			</div>
+			
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>	
+						<th>订单编号</th>
+							<th>购买人</th>
+							<th>活动名称</th>
+							<th>购买渠道</th>
+							<th>购买清单</th>
+							<th>购买时间</th>
+							<th>支付状态</th>
+							<th class="text-center">操作</th>
+						</tr>
+					</thead>
+					<tbody id="tablelists">
+						{volist name="list" id="v"}
+							<tr id="tr{$v.id}">
+								<td>{$v.trade}</td>
+								<td>{$v.contact} <p>电话：{$v.tel}</p></td>
+								<td>{$v.activity.title}</td>
+								<td>【{$v.shopinfo.shopname}】的小店</td>
+								<td>
+								<span class="pad-ver">x</span> {$v.total_num}<br>
+								</td>
+								<td>{$v.update_time}</td>
+								<td>{$v.statustxt}</td>
+								<td>
+									<button class="btn btn-default" onclick="look({$v.id})">详情</button>
+								</td>
+							</tr>
+						{/volist}
+					</tbody>
+				</table>
+			</div>
+			<div class="text-center">
+			{$list->render()}
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+function look(id){
+	var url="{:url('orders/orderDetail')}/id/"+id;
+	layer.open({
+	      type: 2,
+	      title:false,
+	      shadeClose: true,
+	      shade: true,
+	      maxmin: false, 
+	      area: ['80%', '80%'],
+	      content:url
+	    });
+}
+</script>

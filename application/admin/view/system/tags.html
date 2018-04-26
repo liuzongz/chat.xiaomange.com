@@ -1,0 +1,64 @@
+{layout name="layout" /}
+
+<div id="list-div" {notempty name="info"}style="display:none"{/notempty}>
+	<div class="pad-all">
+		<button class="btn btn-primary" onclick="add()">添加</button>
+	</div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>标签</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{volist name="list" id="v"}
+			<tr>
+				<td>{$v.name}</td>
+				<td><a href="{:url('system/tags',['id'=>$v.id])}">编辑</a></td>
+			</tr>
+			{/volist}
+		</tbody>
+	</table>
+</div>
+<div id="add-div" {empty name="info"}style="display:none"{/empty}>
+	<div class="form-horizontal">
+		<div class="panel-body">
+			<div class="mar-btm">
+				<input type="text" id="name" value="{$info.name|default=''}" class="form-control" placeholder="标签名">
+			</div>
+			
+		</div>
+		<div class="text-center">
+			<input type="hidden" id="id" value="{$info.id|default='0'}"/>
+			<button class="btn btn-lg btn-success" onclick="save()">保存</button>
+			<button class="btn btn-lg btn-default" onclick="cancel()">取消</button>
+		</div>
+	</div>
+</div>
+
+<script>
+function save(){
+	var name=$('#name').val();
+	var id=$('#id').val();
+	$.post("{:url('system/tags')}",{id:id,name:name},function(data){
+		if(data.status==1){
+			layer.alert(data.msg,function(){
+				location.href="{:url('system/tags')}";
+			})
+		}else{
+			layer.alert(data.msg,function(){
+				layer.closeAll();
+			})
+		}
+	})
+}
+function add(){
+	$('#list-div').hide();
+	$('#add-div').show();
+}
+function cancel(){
+	$('#list-div').show();
+	$('#add-div').hide();
+}
+</script>

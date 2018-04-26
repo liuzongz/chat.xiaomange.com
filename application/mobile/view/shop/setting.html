@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>{$page_title|default='设置我的店铺'}</title>
+    <link href="__CSS__/bootstrap.css" rel="stylesheet">
+    <link href="__CSS__/nifty.css" rel="stylesheet">
+    <link href="__PLUGINS__/ionicons/css/ionicons.min.css" rel="stylesheet">    
+    <script src="__JS__/jquery-2.2.4.min.js"></script>
+    <script src="__JS__/bootstrap.min.js"></script>
+    <script src="__JS__/nifty.js"></script>
+    <script src="__PLUS__/Layer/layer.js"></script>
+    <script src="__PLUS__/template.js"></script>
+    <script src="__JS__/common.js"></script>
+    <link href="__PLUGINS__/animate-css/animate.min.css" rel="stylesheet">
+    
+    
+    <style>
+		.footmenu{
+			position:fixed; 
+			bottom:0; 
+			left:0; 
+			width:100%; 
+			z-index:900; 
+			padding:1em;
+			border-top:1px solid #999999;
+		}
+		.on{
+			color:#efb239;
+			font-weight:600;
+		}
+		.ontab{
+			color:#efb239;
+			font-weight:600;
+			border-bottom:3px solid #efb239;
+		}
+		.jiao{
+			border-radius:5px;
+		}
+		.pad-1x{
+			padding:0.5em;
+		}
+	</style>
+</head>
+<body>
+
+
+<div class="bg-light text-center text-lg row" id="status-box">
+	<div class="col-xs-6 bord-rgt  pad-all ontab" data-show="setmenu">必看内容</div>
+	<div class="col-xs-6 pad-all " data-show="hexiao">优惠券核销</div>
+</div>
+
+<div class="pad-all bg-light tabs mar-top" id="setmenu" style="display:block">
+	<p class="text-lg text-dark">您的客户订单网址</p>
+	<p class="bg-gray pad-all">{$khurl}</p>
+	<p>请在您自己的公众号中添加一个自定义菜单（比如：我的订单），并把菜单链接指向上面的网址,如下图所示：</p>
+	<img src="__IMG__/menups.jpg" style="max-width:50%" class="img-responsive" />
+</div>
+
+<div class="pad-all bg-light tabs mar-top" id="hexiao" style="display:none">
+	<div id="orderinfo-box">
+		
+	</div>
+	<div id="err-box" class="text-danger text-center text-lg pad-all mar-all"></div>
+	<div class="text-center">
+		<button id="scanbtm" class="btn btn-success btn-block  btn-lg btn-lg" onclick="scan()">打开扫一扫</button>
+		<!-- <br><br>
+		<span class="text-2x pad-all mar-all">或</span><br><br>
+		<div class="form-group">
+			<div class="col-sm-9">
+				<input type="number" placeholder="请输入订单号" id="codeinput" class="form-control input-lg bord-btm">
+			</div>
+		</div>
+		<button id="scanbtm" class="btn btn-success  btn-block btn-lg" onclick="search()">提交</button>
+		 -->
+	</div>
+</div>
+
+
+<div class="pad-all" style="height:15em;"></div>
+<div class="footmenu row text-center bg-gray-light">
+	<a href="{:url('mobile/activity/index')}">
+		<span class="col-xs-4">
+			<i class="ion-grid icon-2x"></i><br>
+			发现
+		</span>
+	</a>
+	<a href="{:url('mobile/shop/index')}">
+		<span class="col-xs-4 on">
+			<i class="ion-compose icon-2x"></i><br>
+			管理小店
+		</span>
+	</a>
+	<a href="{:url('mobile/index/ask')}">
+		<span class="col-xs-4">
+			<i class="ion-chatbubble-working icon-2x"></i><br>
+			有疑问找我
+		</span>
+	</a>
+</div>
+
+
+<script>
+function scan(){
+	wx.scanQRCode({
+		needResult: 1,
+		scanType: ["qrCode"],
+		success: function (res) {
+			var result = res.resultStr;
+			var url="{:url('shop/checkOrderByScanQrcode')}"
+			$.post(url,{code:result},function(data){
+				if(data.status==1){
+					var html=template('order-temp',data.msg)
+					$('#orderinfo-box').html(html)
+					$('#err-box,#scanbtm').hide()
+					
+				}else{
+					$('#orderinfo-box').hide()
+					$('#err-box').show().html(data.msg)
+				}
+			})			
+			}
+		});
+}
+function search(){
+	var result=$('#codeinput').val()
+	var url="{:url('shop/checkOrderByScanQrcode')}"
+		$.post(url,{code:result},function(data){
+			if(data.status==1){
+				var html=template('order-temp',data.msg)
+				$('#orderinfo-box').html(html)
+				$('#err-box,#scanbtm').hide()
+				
+			}else{
+				$('#orderinfo-box').hide()
+				$('#err-box').show().html(data.msg)
+			}
+		})	
+}
+function clearCard(id){	
+	$.post("{:url('shop/setOrderCodeStatus')}",{code:id},function(data){
+		if(data.status==1){
+			$('#hexiaobtm').hide()
+			$('#scanbtm').show()
+			$('#err-box').show().html('<span class="text-bold text-3x text-success">'+data.msg+'</span>')
+		}else{
+			$('#err-box').show().html(data.msg)
+		}
+	})
+}
+
+$('#status-box div').click(function(){
+	var showid=$(this).attr('data-show')
+	var that=$(this)
+	var tabname=that.find('p').text()
+	$('#status-box div').removeClass('ontab')
+	$(this).addClass('ontab')
+	$('.tabs').hide()
+	$('#'+showid).show()
+	
+	
+})
+</script>
+
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+$(function(){
+	var murl=window.location.href
+	var js_url="{:url('toc/jssign')}"
+	$.post(js_url,{fromurl:murl},function(data){
+		options=data.data.msg;
+		wx.config(options);
+		wx.ready(function () {
+			wx.hideOptionMenu();
+			// 支付成功后的操作		     
+		})
+	})
+})
+</script>
+<script id="order-temp" type="html/text">
+	<p>订单编号：{{info.order_code}}</p>
+	<p>活动标题：{{activity.title}}</p>
+	<p>团期：{{period.name}}</p>
+	<p>规格：{{format.name}}</p>
+	<p>数量：{{info.total_num}}</p>
+	<p class="bord-top mar-top pad-top">联系人：{{info.contact}}</p>
+	<p>联系电话：{{info.tel}}</p>
+	<p>微信号:{{info.weixin}}</p>
+	<p>备注：{{info.note}}</p>
+	<div class="text-center">
+		{{ if info.order_code_status==0}}
+			<button id="hexiaobtm" class="btn btn-primary btn-lg btn-block" onclick="clearCard({{info.order_code}})">核销</button>
+		{{ /if}}
+		{{ if info.order_code_status==1}}
+			<span class="pad-all text-danger text-3x text-bold mar-all">已核销</span>
+<br><br><br><br>
+			<button class="btn btn-success btn-lg btn-block" onclick="scan()">打开扫一扫</button>
+		{{ /if}}
+	</div>
+</script>
+</body>
+</html>

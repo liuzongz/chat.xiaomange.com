@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{$page_title|default='原子出发'}</title>
+	<link rel="stylesheet" href="__CSS__/bootstrap.min.css" />
+	<link rel="stylesheet" href="__CSS__/nifty.css" />
+	<link rel="stylesheet" href="__PLUGINS__/ionicons/css/ionicons.min.css"> 
+	<script src="__JS__/jquery-2.2.4.min.js"></script>
+	<script src="__JS__/bootstrap.min.js"></script>
+	<script src="__JS__/nifty.min.js"></script>
+	<script src="__PLUS__/Layer/layer.js"></script>
+</head>
+<body>
+
+<div class="bg-success" style="height:0.3em;widht:100%;"></div>
+<div class="row bg-light">
+	<div class="col-lg-5 col-lg-offset-1 ">
+			<img src="__IMG__/logo-hor.png" class=" " style="max-height:6em;"/>
+	</div>
+	{empty name="userinfo"}
+	<div class="col-lg-4 text-right" style="height:4em;padding:3em 1em;">
+		<span class="pad-top">第一次光临原子出发？</span>
+		<a href="" class="text-primary">立即注册</a>
+		<span class="pad-hor">|</span>
+		<a href="" class="text-primary">联系客服</a>
+	</div>
+	{else/}
+	<div class="col-lg-4" style="height:4em;padding:2.5em 1em;">		
+		<div class="text-right">
+			<span class="mar-hor">{$userinfo.username}</span>
+			<span class="btn btn-danger btn-xs">{$userinfo.roletxt}</span>
+			<span class="mar-hor">|</span>
+			<a class="text-primary" href="{:url('index/logout')}">退出</a>
+		</div>
+	</div>
+	{/empty}
+</div>

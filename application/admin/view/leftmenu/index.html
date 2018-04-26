@@ -1,0 +1,80 @@
+{layout name="layout" /}
+<style>
+.add{
+	color:#fff;
+}
+</style>
+<div class="row">
+	<div class="col-xs-12 col-md-12 col-lg-12">
+		<div class="panel">
+			<div class="panel-body">
+				<div class="pad-btm form-inline">
+					<div class="row">
+						<div class="col-sm-3 table-toolbar-left">
+							<a href="{:url('leftmenu/add')}" class="btn btn-purple add">
+								<i class="ion-plus-circled icon-fw"></i>添加
+							</a>											
+						</div>
+						<div class="col-sm-9 table-toolbar-right">
+							{volist name='rules' id="r"}
+							<a href="{:url('leftmenu/index',['rule'=>$r.id])}" class="btn btn-default">
+								{$r.name}
+							</a>
+							{/volist}
+																
+						</div>
+					</div>
+				</div>
+				
+				<div class="table-responsive">
+					<table class="table ">
+						<thead>
+							<tr>
+								<th>菜单名称</th>
+								<th>权限</th>												
+								<th class="text-center">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							{volist name="list" id="v"}
+								<tr id="tr{$v.id}" class="list-group-item-dark">
+									<td>{$v.name}</td>
+									<td>{$v.ruletxt}</td>												
+									<td class="text-center">
+										<a class="btn btn-warning" href="{:url('leftmenu/add',['id'=>$v.id])}"><i class="ion-edit icon-fw"></i>修改</a>
+										<button class="btn btn-danger del" data-id="{$v.id}"><i class="ion-close-round icon-fw"></i>删除</button>
+									</td>
+								</tr>
+								{volist name="v.son" id="vs"}
+									<tr id="tr{$vs.id}">
+										<td style="padding-left:2em;">├─{$vs.name}</td>
+										<td>{$v.ruletxt}</td>												
+										<td class="text-center">
+											<a class="btn btn-warning" href="{:url('leftmenu/add',['id'=>$vs.id])}"><i class="ion-edit icon-fw"></i>修改</a>
+											<button class="btn btn-danger del" data-id="{$vs.id}"><i class="ion-close-round icon-fw"></i>删除</button>
+										</td>
+									</tr>
+								{/volist}
+							{/volist}										
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+<script>
+	$('.del').click(function(){		
+		var id=$(this).attr('data-id');
+		$.post("{:url('Leftmenu/del')}",{id:id},function(data){
+			if(data.status==1){
+				layer.alert(data.msg,function(){
+					$('#tr'+id).remove();
+				});				
+			}else{
+				layer.msg(data.msg);
+			}
+		})
+	})
+</script>

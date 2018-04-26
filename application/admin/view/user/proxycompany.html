@@ -1,0 +1,54 @@
+{layout name="nohead"}
+<style>
+.bottom {
+    position: fixed;
+    bottom: 0;
+    height:4em;
+	text-align:center;
+	width:100%;
+}
+.bottom span{
+	width:50%;
+	background-color: #F88F00;
+    color: #fff;
+	padding:1em;
+}
+</style>
+<div class="panel pad-top">
+	<h3 class="pad-hor mar-lft">代理商<span class="text-warning pad-top pad-hor">{$proxy.name}</span>放下的企业</h3>	
+</div>
+
+<div class="panel pad-all">
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>公司名称</th>
+					<th>联系人</th>
+					<th>联系电话</th>
+					<th>企业所在地</th>
+					<th>注册时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				{volist name="list" id="v"}
+					<tr>
+						<td>{$v.name}</td>
+						<td>{$v.contact}</td>
+						<td>{$v.tel}</td>
+						<td>
+							{notempty name="v.prov"}{$v.prov|getcity}{/notempty}
+							{notempty name="v.city"}-{$v.city|getcity}{/notempty}
+							{notempty name="v.area"}-{$v.area|getcity}{/notempty}
+						</td>
+						<td>{$v.create_time}</td>
+					</tr>
+				{/volist}
+			</tbody>
+		</table>
+		<div class="text-center">
+			{$list->render()}
+		</div>
+	</div>
+</div>
+

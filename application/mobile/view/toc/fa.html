@@ -1,0 +1,53 @@
+<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>{$page_title|default='原子出发'}</title>
+    <link href="__CSS__/bootstrap.css" rel="stylesheet">
+    <link href="__CSS__/nifty.css" rel="stylesheet">
+    <link href="__PLUGINS__/ionicons/css/ionicons.min.css" rel="stylesheet">    
+    <script src="__JS__/jquery-2.2.4.min.js"></script>
+    <script src="__JS__/bootstrap.min.js"></script>
+    <script src="__JS__/nifty.js"></script>
+    <script src="__PLUS__/Layer/layer.js"></script>
+    <script src="__PLUS__/template.js"></script>
+    <script src="__JS__/common.js"></script>
+<body>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+        <script type="text/javascript">
+        wx.error(function(e){
+        	console.log(e);
+        });
+        // 当JSSDK初始化完成后，再执行相关操作
+        wx.ready(function () {
+        	  // 接收PHP生成的H5查询JS签名包参数
+        	  var option = {$card_sign};
+
+        	  option.success = function (res) {
+        	    // 成功之后返回结果
+        	    alert(JSON.stringify(res));
+        	  };
+
+        	  // 执行H5事件
+        	  wx.addCard(option);
+        	});
+        
+        $(function(){
+        	var id=getQueryVariable('id')
+        	var murl=window.location.href
+        	var js_url=base_url+'Wechat/jssign'
+        	$.post(js_url,{fromurl:murl},function(data){
+        		options=data.data.msg;
+        		wx.config(options);
+        		wx.ready(function () {
+        			wx.hideOptionMenu();		     
+        		})
+        	})
+        })
+        </script>
+</body>
+</html>

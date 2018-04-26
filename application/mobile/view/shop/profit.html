@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>{$page_title|default='原子出发'}</title>
+    <link href="__CSS__/bootstrap.css" rel="stylesheet">
+    <link href="__CSS__/nifty.css" rel="stylesheet">
+    <link href="__PLUGINS__/ionicons/css/ionicons.min.css" rel="stylesheet">    
+    <script src="__JS__/jquery-2.2.4.min.js"></script>
+    <script src="__JS__/bootstrap.min.js"></script>
+    <script src="__JS__/nifty.js"></script>
+    <script src="__PLUS__/Layer/layer.js"></script>
+    <script src="__PLUS__/template.js"></script>
+    <script src="__JS__/common.js"></script>
+    <style>
+		.footmenu{
+			position:fixed; 
+			bottom:0; 
+			left:0; 
+			width:100%; 
+			z-index:900; 
+			padding:1em;
+			border-top:1px solid #999999;
+		}
+		.on{
+			color:#efb239;
+			font-weight:600;
+		}
+		.ontab{
+			color:#efb239;
+			font-weight:600;
+			border-bottom:3px solid #efb239;
+		}
+		.jiao{
+			border-radius:5px;
+		}
+	</style>
+</head>
+<body>
+<div class="bg-light text-center text-dark text-lg pad-hor">	
+	<div class="row pad-all">
+		<div class="col-xs-6 bord-rgt">
+			<p>销售额</p><span id="allprice">0</span>
+		</div>
+		<div class="col-xs-6">
+			<p>利润</p><span id="profit">0</span>
+		</div>
+	</div>
+</div>
+
+<div class="mar-top"></div>
+
+<div id="list-box"></div>
+
+
+<div id="nolist-box" class="text-center" style="margin-top:3em;display:none">
+	<i class="ion-clipboard" style="font-size:10em;"></i>
+	<p class="text-lg">您还没有产品哦！</p>
+</div>
+
+<div class="pad-all" style="height:15em;"></div>
+<div class="footmenu row text-center bg-gray-light">
+	<a href="#" data-page="index">
+		<span class="col-xs-4">
+			<i class="ion-grid icon-2x"></i><br>
+			发现
+		</span>
+	</a>
+	<a href="#" data-page="myshop">
+		<span class="col-xs-4">
+			<i class="ion-compose icon-2x on"></i><br>
+			管理小店
+		</span>
+	</a>
+	<a href="#" data-page="ask">
+		<span class="col-xs-4">
+			<i class="ion-chatbubble-working icon-2x"></i><br>
+			有疑问找我
+		</span>
+	</a>
+</div>
+<script id="list-temp" type="html/text">
+{{each msg as v}}
+<div class="pad-all bg-light row" id="list-box">
+	<div class="col-xs-3">
+		<img class="img-md jiao" src="{{v.headimgs}}">
+	</div>
+	<div class="col-xs-9">
+		<p class="text-bold text-lg text-dark">【{{v.destination}}】{{v.title}}</p>
+		<div class="row">
+			<div class="col-xs-12">
+				<p class="row">
+					<div class="col-xs-6">
+						销售额<span class="text-danger">￥{{v.allPrice}}</span>
+					</div>
+					<div class="col-xs-6">
+						 利润<span class="text-danger">￥{{v.profit}}</span>
+					</div>
+				</p>				
+			</div>
+		</div>
+	</div>
+</div>
+<div class="mar-top bg-light">
+	<p class="pad-all bord-btm">销售额与利润明细  <i class="ion-chevron-up pull-right mar-rgt"></i></p>
+	{{each v.orderlist as o}}
+	<div class="row pad-all">
+		<div class="col-xs-2">
+			<img class="img-sm img-circle" src="{{o.member.headimgurl}}">			
+		</div>
+		<div class="col-xs-3">
+			<p class="text-lg">{{o.member.nickname}}</p>
+			<p>2018-08-08</p>
+		</div>
+		<div class="col-xs-3 text-center">
+			<p class="text-lg">销售额</p>
+			<p>{{o.allprice}}</p>
+		</div>
+		<div class="col-xs-4 text-center" >
+			<p class="text-lg">利润</p>
+			<p>{{o.profit}}</p>
+		</div>
+	</div>
+	{{/each}}
+</div>
+{{/each}}
+</script>
+<script>
+$(function(){
+	getActivity()
+	getCount()
+})
+function getActivity(){
+	var get_url=base_url+'shop/getProfit'
+	$.get(get_url,{token:token},function(data){
+		console.log(data)
+		if(data.data.code==1){
+			var html=template('list-temp',data.data)
+			$('#list-box').empty().append(html)
+			$('#nolist-box').hide();
+			$('.act a').click(function(){
+				var page=$(this).attr('data-page');
+				location.href=page+'&token='+token
+			})
+		}else{
+			$('#nolist-box').show();
+		}
+	})
+}
+function getCount(){
+	var get_url=base_url+'shop/getCount'
+	$.get(get_url,{token:token},function(data){
+		if(data.data.code==1){
+			$('#allprice').text(data.data.msg.allPrice)
+			$('#profit').text(data.data.msg.profit)
+		}
+	})
+}
+$('.footmenu a').click(function(){
+	location.href=$(this).attr('data-page')+'.html?token='+token
+})
+</script>
+</body>
+</html>

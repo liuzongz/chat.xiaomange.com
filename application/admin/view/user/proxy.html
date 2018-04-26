@@ -1,0 +1,80 @@
+{layout name="layout"}
+
+<div class="panel">
+	<div class="panel-body">
+		<div class="pad-btm form-inline">
+			<div class="row">
+				<div class="col-sm-6 table-toolbar-left">
+					<a href="{:url('user/proxyAdd')}" class="btn btn-purple">
+						<i class="ion-plus"></i> 添加代理商
+					</a>					
+					<button class="btn btn-default">
+						<i class="ion-ios-printer-outline"></i> 打印
+					</button>
+					<button class="btn btn-default">
+						<i class="ion-share"></i> 导出表格
+					</button>
+				</div>
+				<div class="col-sm-6 table-toolbar-right">
+					<div class="form-group">
+						<input id="keyword" type="text" placeholder="请输入会员名称" class="form-control" autocomplete="off">
+					</div>
+					<button class="btn btn-default">
+						<i class="ion-search"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>代理人</th>
+						<th>电话</th>
+						<th>代理地区</th>
+						<th>推荐企业数</th>
+						<th>上级代理</th>
+						<th>注册时间</th>
+						<th>管理操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="list" id="v"}
+						<tr>
+							<td>{$v.info.name}</td>
+							<td>{$v.info.tel}</td>
+							<td>
+								{notempty name="v.info.prov"}{$v.info.prov|getcity}{/notempty}
+								{notempty name="v.info.city"}-{$v.info.city|getcity}{/notempty}
+								{notempty name="v.info.area"}-{$v.info.area|getcity}{/notempty}
+							</td>
+							<td onclick="view({$v.rule_id})">{$v.rule_id|getCompanyNumByProxy}</td>
+							<td>{$v.proxy.name}</td>
+							<td>{$v.create_time}</td>
+							<td>
+							<a href="{:url('user/proxyadd',['id'=>$v.info.id])}" class="btn btn-warning">修改</a>
+							</td>
+						</tr>
+					{/volist}
+				</tbody>
+			</table>
+			<div class="text-center">
+				{$list->render()}
+			</div>			
+		</div>		
+	</div>
+</div>
+
+<script>
+function view(id){
+	layer.open({
+		  type: 2,
+		  title:false,
+		  shadeClose: true,
+		  shade: 0.9,
+		  area: ['60%', '90%'],
+		  content:"{:url('user/proxycompany')}/id/"+id
+		}); 
+}
+</script>

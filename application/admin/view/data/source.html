@@ -1,0 +1,305 @@
+{layout name="layout"}
+<link href="__PLUGINS__/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+<script src="__PLUGINS__/bootstrap-select/bootstrap-select.min.js"></script>
+
+<link href="__PLUGINS__/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+<script src="__PLUGINS__/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="__PLUGINS__/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script type="text/javascript" src="__JS__/echarts.js"></script>
+<style>
+	.left-bord{
+		border-left:8px solid #34495e;
+	}
+	#myTab a{padding: 0;}
+	.nav-tabs{border: none;}
+	.pad-c{padding: 0 10px;}
+	#myTab .active .btn-default{background: #4ad2ff;color: #fff;border: 1px solid #4ad2ff;}
+	.pad-c a:hover{color:#4ad2ff;}
+	#act a{color:#4ad2ff;}
+</style>
+<p class="pad-all bg-gray">搜索项目</p>
+<div class="bg-light pad-all">
+	<select class="selectpicker" data-live-search="true" data-width="30%" name="shop">
+		<option value="0">全部资源</option>}
+		option
+        {volist name='shop' id='v'}
+        <option value="{$v.id}" {eq name=":input('shop')" value="$v.id"} selected{/eq}>{$v.shopname}</option>
+   		{/volist}
+    </select>
+
+	<div class="btn btn-primary mar-btm" onclick="search()">搜索</div>
+</div>
+
+<p class="pad-all bg-gray ">关键指标</p>
+<div class="row text-center bord-all">
+	<div class="col-xs-4 bord-hor pad-all">
+		<p>资源客户数（个）</p>
+		<p class="text-4x text-bold text-dark">{$total}</p>
+		<p>昨日新增 {$new_num}个</p>
+	</div>
+	<div class="col-xs-4 pad-all bord-hor">
+		<p>资源数（个）</p>
+		<p class="text-4x text-bold text-dark">{$ziyuan}</p>
+		<p>昨日新增 {$ziyuan_num}个</p>
+	</div>
+	<div class="col-xs-4 pad-all">
+		<p>销售额（元）</p>
+		<p class="text-4x text-bold text-dark">{$sale}</p>
+		<p>昨日新增 {$sale_num}单</p>
+	</div>
+</div>
+
+<p class="pad-all bg-gray" style="margin-top: 10px;">趋势分析</p>
+<div class="row pad-all">
+	<div class="col-xs-4">
+		<ul id="myTab" class="nav nav-tabs">
+		   <li class="active"><a href="#custom" data-toggle="tab"><button class="btn btn-default">资源客户数</button></a></li>
+		   <li><a href="#source" data-toggle="tab"><button class="btn btn-default">资源数</button></a></li>
+		   <li><a href="#sale" data-toggle="tab"><button class="btn btn-default">销售额</button></a></li>
+		</ul>
+	</div>	
+	<div class="col-xs-8 row">
+		<div class="col-xs-5">
+			<span class="pad-hor">时间：</span>
+			<span class="btn pad-hor pad-c" {eq name=":input('time')" value="1"} id="act"{/eq}><a href="{:url('data/source')}/shop/{$shop_on}/time/1">7天</a></span>
+			<span class="btn pad-hor pad-c" {eq name=":input('time')" value="2"} id="act"{/eq}><a href="{:url('data/source')}/shop/{$shop_on}/time/2">14天</a></span>
+			<span class="btn pad-hor pad-c" {eq name=":input('time')" value="3"} id="act"{/eq}><a href="{:url('data/source')}/shop/{$shop_on}/time/3">30天</a></span>
+		</div>
+		<!-- <div class="col-xs-7">
+			<div id="time-range">
+				<div class="input-daterange input-group" id="datepicker">
+					<input type="text" class="form-control" name="start" />
+					<span class="input-group-addon">至</span>
+					<input type="text" class="form-control" name="end" />
+				</div>
+			</div>
+		</div> -->
+	</div>
+</div>
+
+<p class="pad-all left-bord text-bold text-dark text-lg">趋势图</p>
+<div class="pad-all" style="height:25em;">
+	<div id="myTabContent" class="tab-content" style="height:295px;">
+	   	<div class="tab-pane fade in active" id="custom" style="height:295px;">
+	      	<div id="main1" style="height:295px;width: 800px;"></div>
+	   	</div>
+	   	<div class="tab-pane fade" id="source" style="height:295px;width: 100%;">
+	    	<div id="main2" style="height:295px;width: 100%;width: 800px;"></div>
+	   	</div>
+	   	<div class="tab-pane fade" id="sale" style="height:295px;width: 100%;">
+	    	<div id="main3" style="height:295px;width: 100%;width: 800px;"></div>
+	   	</div>
+	</div>
+</div>
+
+<p class="pad-all bg-gray ">详细数据</p>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Invoice</th>
+			<th>Invoice</th>
+			<th>Invoice</th>
+			<th>Invoice</th>
+			<th>Invoice</th>
+			<th>Invoice</th>
+			<th>Invoice</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td></td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>			
+		</tr>
+		<tr>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>			
+		</tr>
+	</tbody>
+</table>
+                                    
+<script>
+	function search(){
+		var shop_id = $('.selectpicker').val();
+		window.location.href="{:url('data/source')}/shop/"+shop_id+"/time/{$time_on}";
+	}
+$(function(){
+	// $('#demo-chosen-select').chosen();
+	$('#time-range .input-daterange').datepicker({
+		format: "yyyy-mm-dd",
+        todayBtn: "linked",
+        autoclose: true,
+        todayHighlight: true,
+        language: "zh-CN",
+    });	
+})
+</script>
+<script type="text/javascript">
+	var myChart = echarts.init(document.getElementById('main1'));
+	option = {
+	    tooltip: {
+	        trigger: 'axis',
+	        axisPointer: {
+	            type: 'cross',
+	            crossStyle: {color: 'red'}
+	        }
+	    },
+	    toolbox: {
+	        feature: {
+	            dataView: {show: true, readOnly: false},
+	            magicType: {show: true, type: ['line', 'bar']},
+	            restore: {show: true},
+	            saveAsImage: {show: true}
+	        }
+	    },
+	    legend: {data:['新增资源客户数','资源客户总数']},
+	    xAxis: [{
+	        type: 'category',
+	        data: {$time},
+	        axisPointer: {type: 'shadow'},
+	        axisLabel:{
+	        	interval:0,
+	        	rotate:30
+	        }
+	    }],
+	    yAxis: [{
+	        type: 'value',
+	        name: '新增资源客户数',
+	        min: 0,
+	        interval: 1,
+	        axisLabel: {formatter: '{value}个'},
+	        splitLine:{show: false}
+	    },{
+	        type: 'value',
+	        name: '资源客户总数',
+	        min: 0,
+	        interval: 1,
+	        axisLabel: {formatter: '{value}个'},
+	        splitLine:{show: false}
+	    }],
+	    series: [{
+	        name:'新增资源客户数',
+	        type:'bar',
+	        data:{$new_all},
+	        itemStyle:{color:'#4ad2ff'}
+	    },{
+	        name:'资源客户总数',
+	        type:'line',
+	        yAxisIndex: 1,
+	        data:{$shop_all},
+	        itemStyle: {color:'#747CC8'}
+	    }]
+	};
+	myChart.setOption(option);
+
+	var myChart1 = echarts.init(document.getElementById('main2'));
+	option = {
+	    tooltip: {
+	        trigger: 'axis',
+	        axisPointer: {
+	            type: 'cross',
+	            crossStyle: {color: 'red'}
+	        }
+	    },
+	    toolbox: {
+	        feature: {
+	            dataView: {show: true, readOnly: false},
+	            magicType: {show: true, type: ['line', 'bar']},
+	            restore: {show: true},
+	            saveAsImage: {show: true}
+	        }
+	    },
+	    legend: {data:['新增资源数','资源总数']},
+	    xAxis: [{
+	        type: 'category',
+	        data: {$time},
+	        axisPointer: {type: 'shadow'}
+	    }],
+	    yAxis: [{
+	        type: 'value',
+	        name: '新增资源数',
+	        min: 0,
+	        axisLabel: {formatter: '{value} 个'},
+	        splitLine:{show: false}
+	    },{
+	        type: 'value',
+	        name: '资源总数',
+	        min: 0,
+	        axisLabel: {formatter: '{value}个'},
+	        splitLine:{show: false}
+	    }],
+	    series: [{
+	        name:'新增资源数',
+	        type:'bar',
+	        data:[5,7,9,15,7,9,23],
+	        itemStyle:{color:'#4ad2ff'}
+	    },{
+	        name:'资源总数',
+	        type:'line',
+	        yAxisIndex: 1,
+	        data:[30,23,45,14,26,12,9],
+	        itemStyle: {color:'#747CC8'}
+	    }]
+	};
+	myChart1.setOption(option);
+
+	var myChart2 = echarts.init(document.getElementById('main3'));
+	option = {
+	    tooltip: {
+	        trigger: 'axis',
+	        axisPointer: {
+	            type: 'cross',
+	            crossStyle: {color: 'red'}
+	        }
+	    },
+	    toolbox: {
+	        feature: {
+	            dataView: {show: true, readOnly: false},
+	            magicType: {show: true, type: ['line', 'bar']},
+	            restore: {show: true},
+	            saveAsImage: {show: true}
+	        }
+	    },
+	    legend: {data:['新增销售额','销售总额']},
+	    xAxis: [{
+	        type: 'category',
+	        data: {$time},
+	        axisPointer: {type: 'shadow'}
+	    }],
+	    yAxis: [{
+	        type: 'value',
+	        name: '新增销售额',
+	        min: 0,
+	        axisLabel: {formatter: '{value} 元'},
+	        splitLine:{show: false}
+	    },{
+	        type: 'value',
+	        name: '销售总额',
+	        min: 0,
+	        axisLabel: {formatter: '{value}个'},
+	        splitLine:{show: false}
+	    }],
+	    series: [{
+	        name:'新增销售额',
+	        type:'bar',
+	        data:[5,7,9,15,7,9,23],
+	        itemStyle:{color:'#4ad2ff'}
+	    },{
+	        name:'销售总额',
+	        type:'line',
+	        yAxisIndex: 1,
+	        data:[30,23,45,14,26,12,9],
+	        itemStyle: {color:'#747CC8'}
+	    }]
+	};
+	myChart2.setOption(option);
+</script>

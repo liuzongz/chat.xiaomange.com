@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>原子出发</title>
+	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+	<meta name="viewport" content="height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="/static/nifty/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/static/nifty/css/nifty.css" />
+	<link rel="stylesheet" href="/static/nifty/plugins/ionicons/css/ionicons.min.css"> 
+	<script src="/static/nifty/js/jquery-2.2.4.min.js"></script>
+	<script src="/static/nifty/js/bootstrap.min.js"></script>
+	<script src="/static/nifty/js/nifty.min.js"></script>
+	<script src="/static/Plus/Layer/layer.js"></script>
+	<script src="/static/Plus/template.js"></script>
+	<script src="/static/Plus/jquery.cookie.js"></script>
+	<script src="token.js"></script>
+	<style>
+	.video-responsive{
+		width:100%;
+		background-color:#fff;
+	}
+	.wenzi{
+	    position: fixed;
+	    width: 100%;
+	    text-align: center;
+	    z-index:1;
+	}
+	.taba{
+		padding:0.5em 2em;
+		margin:0.5em 0;
+	}
+	
+	a.active{
+		border-bottom:3px solid #888888;
+	}
+	.footernav{
+		position:fixed;
+	    bottom:0;
+		width:100%;
+	}
+	</style>
+</head>
+<body class="bg-light">
+	<a href="detail.html" id="hotpro"><img class="wenzi" id="preimg" /></a>	
+	<div class="bg-light pad-all bord-btm row text-center">
+		<div class="col-xs-6">
+			<a data-toggle="tab" href="#hotlook" aria-expanded="false" class="taba active">大家都在看</a>
+		</div>
+		<div class="col-xs-6">
+			<a data-toggle="tab" href="#hotsales" aria-expanded="true" class="taba">24小时热卖</a>
+		</div>
+	</div>
+	<div class="tab-content mar-top">
+		<div id="hotsales" class="tab-pane fade active in">
+			热卖 
+		</div>
+		<div id="hotlook" class="tab-pane fade">
+			热看
+		</div>
+	</div>
+	<div class="footernav row text-center pad-top bord-top">
+		<a class="col-xs-6" href="index.html"><i class="ion-eye icon-2x"></i><p>发现</p></a>
+		<a class="col-xs-6" href="list.html"><i class="ion-grid icon-2x"></i><p>订单</p></a>
+	</div>
+</body>
+<script id="img-temp" type="text/html">
+{{each data as v}}
+	<img src="{{v.headimg}}" class="img-responsive" style="width:30%;"/>
+{{/each}}
+</script>
+<script>
+var width=$(window).width();
+var height=$(window).height();
+$(function(){
+	$('#preimg').css('height',height/2+'px');
+	$.get("https://www.yuanzigo.com/api/activity/getlist?hot=1&token="+token,function(data){
+		if(data.code==1){
+			$('#preimg').attr('src',data.data[0].headimg)
+			$('#hotpro').attr('href','detail.html?id='+data.data[0].id)
+		}
+	})
+	$.get("https://www.yuanzigo.com/api/activity/getlist?hot=0&order=look&token="+token,function(data){
+		if(data.code==1){
+			console.log(data.data)
+			var html=template('img-temp',data)
+			console.log(html)
+			$('#hotlook').html(html)
+		}
+	})
+	$.get("https://www.yuanzigo.com/api/activity/getlist?hot=0&order=sale&token="+token,function(data){
+		if(data.code==1){
+			console.log(data.data)
+			var html=template('img-temp',data)
+			console.log(html)
+			$('#hotsales').html(html)
+		}
+	})
+})
+$('#preimg').click(function(){
+	$('#preimg').hide();
+	$('video').trigger('play');
+})
+$('.taba').click(function(){
+	$('.taba').removeClass('active');
+	$(this).addClass('active')
+})
+</script>
+</html>

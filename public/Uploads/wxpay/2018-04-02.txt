@@ -1,0 +1,18 @@
+array (
+  'appid' => 'wx5a4dd3805c7c738f',
+  'bank_type' => 'ICBC_DEBIT',
+  'cash_fee' => '118000',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1470204002',
+  'nonce_str' => '8zj5tvqads3o3e16cb8ybgiqfuochljd',
+  'openid' => 'omP8Nwi1LC-75WzFR4JW-sK0v1zI',
+  'out_trade_no' => '1522668760',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '7ED8BD262DC59EE59D112AA9BF638BA6',
+  'time_end' => '20180402193358',
+  'total_fee' => '118000',
+  'trade_type' => 'JSAPI',
+  'transaction_id' => '4200000074201804020816922793',
+)

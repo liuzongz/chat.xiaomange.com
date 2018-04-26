@@ -1,0 +1,55 @@
+{layout name="layout"}
+<div id="base-box" class="tab-pane fade active in">
+	<div class="form-horizontal pad-top mar-top">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">资源量</label>
+			<div class="col-sm-6">
+				<input id="source" placeholder="资源量" value="{$info.resource|default=''}" type="text" class="form-control" >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">社群数量</label>
+			<div class="col-sm-6">
+				<input id="team" placeholder="社群数量" value="{$info.team|default=''}" type="text" class="form-control" >
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label">用户量</label>
+			<div class="col-sm-6">
+				<input id="user" placeholder="用户量" value="{$info.user|default=''}" type="text" class="form-control" >
+			</div>
+		</div>
+							
+		<div class="text-center pad-all">
+			<input type="hidden" id="id" value="{$info.id|default='0'}" />
+			<button class="btn btn-success btn-lg" onclick="addbase()">保存</button>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function addbase(){
+		var data = {};
+		data['source'] = $('#source').val();
+		data['team'] = $('#team').val();
+		data['user'] = $('#user').val();
+		console.log(data);
+		$.ajax({
+			url:"{:url('data/regdata')}",
+			data:data,
+			type:'post',
+			dataType:'json',
+			success:function(redata){
+				if (redata.msg == 1) {
+					layer.alert('修改成功',function(){
+						location.reload()
+					});	
+				}else{
+					layer.alert('修改失败',function(){
+						location.reload()
+					});	
+				}
+			}
+		})
+	}
+</script>

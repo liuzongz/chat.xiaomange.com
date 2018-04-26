@@ -1,0 +1,97 @@
+{layout name="layout"}
+
+<div class="panel">
+	<div class="panel-body">
+		<div class="pad-btm form-inline">
+			<div class="row">
+				<div class="col-sm-6 table-toolbar-left">
+					<a href="{:url('member/add')}" class="btn btn-success"><i class="ion-plus"></i>添加</a>
+				</div>
+				<div class="col-sm-6 table-toolbar-right">
+					<div class="form-group">
+						<input id="keyword" type="text" placeholder="请输入会员名称" class="form-control" autocomplete="off">
+					</div>
+					<button class="btn btn-default">
+						<i class="ion-search"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>昵称</th>
+						<th>公司名称</th>
+						<th>服务费</th>
+						<th>注册时间</th>
+						<th>管理操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{volist name="list" id="v"}
+						<tr id="tr{$v.id}">
+							<td>{$v.name}</td>
+							<td>{$v.companyinfo.name}</td>
+							<td ondblclick="ShowElement(this,{$v.companyinfo.id})">{$v.companyinfo.rate}</td>
+							<td>{$v.create_time}</td>
+							<td>
+								<a href="{:url('member/add',['id'=>$v.id])}" class="btn btn-warning">修改</a>
+								<button class="btn btn-danger" onclick="del({$v.id})">删除</button>
+							</td>
+						</tr>
+					{/volist}
+				</tbody>
+			</table>
+			<div class="text-center">
+				{$list->render()}
+			</div>			
+		</div>		
+	</div>
+</div>
+
+<script>
+function editrate(id,o){
+	layer.prompt({title: ['请输入该企业的服务费比例'], formType: 0,value:""+o+""}, function(rate, index){
+		layer.close(index);
+		  
+	});
+}
+</script>
+<script type="text/javascript">
+    function ShowElement(element,id) {
+        var oldhtml = element.innerHTML;
+        //创建新的input元素
+        var newobj = document.createElement('input');
+        //为新增元素添加类型
+        newobj.type = 'text';
+        //为新增元素添加value值
+        newobj.value = oldhtml;
+        //为新增元素添加光标离开事件
+        newobj.onblur = function() {
+            //当触发时判断新增元素值是否为空，为空则不修改，并返回原有值 
+            element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+            //当触发时设置父节点的双击事件为ShowElement
+            element.setAttribute("ondblclick", "ShowElement(this,"+id+");");
+            $.post("{:url('member/company')}",{id:id,val:this.value},function(data){
+            	layer.tips(data.msg, element, {
+            			  tips: [1, '#3595CC'],
+            			  time: 4000
+            	});
+            })
+        }
+        //设置该标签的子节点为空
+        element.innerHTML = '';
+        //添加该标签的子节点，input对象
+        element.appendChild(newobj);
+        //设置选择文本的内容或设置光标位置（两个参数：start,end；start为开始位置，end为结束位置；如果开始位置和结束位置相同则就是光标位置）
+        newobj.setSelectionRange(0, oldhtml.length);
+        //设置获得光标
+        newobj.focus();
+
+        //设置父节点的双击事件为空
+        newobj.parentNode.setAttribute("ondblclick", "");
+
+    }
+</script>

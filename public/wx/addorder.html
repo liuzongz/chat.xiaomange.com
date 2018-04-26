@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>原子出发</title>
+	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+	<meta name="viewport" content="height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="/static/nifty/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/static/nifty/css/nifty.css" />
+	<link rel="stylesheet" href="/static/nifty/plugins/ionicons/css/ionicons.min.css"> 
+	<script src="/static/nifty/js/jquery-2.2.4.min.js"></script>
+	<script src="/static/nifty/js/bootstrap.min.js"></script>
+	<script src="/static/nifty/js/nifty.min.js"></script>
+	<script src="/static/Plus/Layer/layer.js"></script>
+	<script src="/static/Plus/template.js"></script>
+	<script src="/static/Plus/jquery.cookie.js"></script>
+	<script src="token.js"></script>
+	<style>
+	.video-responsive{
+		width:100%;
+		background-color:#000;
+	}
+	.wenzi{
+	    position: fixed;
+	    width: 100%;
+	    text-align: center;
+	    z-index:1;
+	}
+	.taba{
+		padding:0.5em 2em;
+		margin:0.5em 0;
+	}
+	
+	a.active{
+		border-bottom:3px solid #888888;
+	}
+	.footernav{
+		position:fixed;
+	    bottom:0;
+		width:100%;
+		z-index:999;
+	}
+	#ordernum{
+		position:fixed;
+	    bottom:0;
+		width:100%;
+		display:none;
+		z-index:900;
+	}
+	.zhezhao{
+		background-color:#000;
+		z-index:800;
+		position:absolute;
+		width:100%;
+		top:0;
+		bottom:0;
+		left:0;
+		opacity: 0.8;
+		display:none;
+	}
+	#traveler-temp{
+		display:none;
+	}
+	</style>
+</head>
+<body>
+	<div class="bg-light pad-all">出行人信息</div>
+	<div class="traveler">
+		<div class="bg-light pad-all mar-top ">		
+			<div class="form-group row pad-ver">
+				<label for="demo-is-inputnormal" class="col-xs-3 control-label">姓名</label>
+				<div class="col-xs-6">
+					<input type="text" placeholder="请输入姓名" class="form-control bord-no" id="name">
+				</div>
+			</div>
+			<div class="form-group row bord-ver pad-ver">
+				<label for="demo-is-inputnormal" class="col-xs-3 control-label">联系电话</label>
+				<div class="col-xs-6">
+					<input type="text" placeholder="请输入联系电话" class="form-control bord-no" id="tel">
+				</div>
+			</div>
+			<div class="form-group row pad-ver">
+				<label for="demo-is-inputnormal" class="col-xs-3 control-label">身份证</label>
+				<div class="col-xs-6">
+					<input type="text" placeholder="请输入身份证号码" class="form-control bord-no" id="idcard">
+				</div>
+			</div>			
+		</div>					
+	</div>
+	<div id="moretraveler"></div>
+	
+	<div class="pad-all bg-light mar-top">
+		<button class="btn btn-dark btn-block" onclick="addtraveler()">添加出行人</button>
+	</div>	
+	
+	<div class="bg-light pad-all mar-top contact">
+		<p class="bord-btm pad-btm">联系人信息</p>
+		<div class="form-group row pad-ver">
+			<label for="demo-is-inputnormal" class="col-xs-3 control-label">联系人</label>
+			<div class="col-xs-6">
+				<input type="text" placeholder="请输入姓名" class="form-control bord-no" id="name">
+			</div>
+		</div>
+		<div class="form-group row bord-ver pad-ver">
+			<label for="demo-is-inputnormal" class="col-xs-3 control-label">联系电话</label>
+			<div class="col-xs-6">
+				<input type="text" placeholder="请输入联系电话" class="form-control bord-no" id="tel">
+			</div>
+		</div>
+		<div class="form-group row pad-ver">
+			<label for="demo-is-inputnormal" class="col-xs-3 control-label">电子邮箱</label>
+			<div class="col-xs-6">
+				<input type="text" placeholder="请输入电子邮箱，可不填" class="form-control bord-no" id="email">
+			</div>
+		</div>	
+	</div>
+	
+	<div class="mar-top pad-all bg-light row">
+		<div class="col-xs-3">
+			<i class="ion-ios-information-outline icon-5x text-info"></i>
+		</div>
+		<div class="col-xs-9">
+			<p>注意事项</p>
+			<div id="noticediv"></div>
+		</div>
+	</div>
+	
+	<div style="width:100%;height:50em"></div>
+	<div class="footernav row text-center bord-top">
+		<span class="col-xs-6 btn btn-default pad-ver">金额 <i class="ion-social-yen mar-hor"></i><span id="baseprice" style="font-size:1.2em " class="mar-rgt">0</span></span>
+		<span class="col-xs-6 btn btn-warning pad-ver prebtn" style="font-size:1.2em ">支付</span>		
+	</div>
+	<div class="zhezhao"></div>
+	<div id="traveler-temp" >
+		<div class="traveler">
+			<div class="pad-all mar-top bg-light">
+			<div class="form-group row pad-ver">
+				<label for="demo-is-inputnormal" class="col-xs-3 control-label">姓名</label>
+				<div class="col-xs-6">
+					<input type="text" placeholder="请输入姓名" class="form-control bord-no" id="name">
+				</div>
+			</div>
+			<div class="form-group row bord-ver pad-ver">
+				<label for="demo-is-inputnormal" class="col-xs-3 control-label">联系电话</label>
+				<div class="col-xs-6">
+					<input type="text" placeholder="请输入联系电话" class="form-control bord-no" id="tel">
+				</div>
+			</div>
+			<div class="form-group row pad-ver">
+				<label for="demo-is-inputnormal" class="col-xs-3 control-label">身份证</label>
+				<div class="col-xs-6">
+					<input type="text" placeholder="请输入身份证号码" class="form-control bord-no" id="idcard">
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>
+var width=$(window).width();
+var height=$(window).height();
+var id=0;
+var orderid=0;
+
+$(function(){
+	id=getUrlGet('id');
+	orderid=getUrlGet('orderid');
+	$.get("https://www.yuanzigo.com/api/wechat/jssign?page=addorder",function(data){
+		console.log(data)
+		wx.config(data.data);
+		wx.ready(function () {
+			wx.hideOptionMenu();
+		})
+	});
+	
+	$.get("https://www.yuanzigo.com/api/activity/detail?id="+id+"&token="+token,function(data){
+		if(data.code==1){
+			$('#noticediv').html(data.data.notice);
+		}
+	})
+	$.get("https://www.yuanzigo.com/api/order/getOrderPrice?orderid="+orderid+"&token="+token,function(data){
+		if(data.code==1){
+			console.log(data)
+			$('#baseprice').html(data.data.total_price);
+		}
+	})
+})
+
+function addtraveler(){
+	var html=$('#traveler-temp').html();
+	$('#moretraveler').append(html)
+}
+
+$('.prebtn').click(function(){
+	var travelertxt='';
+	$('.traveler').each(function(){
+		var that=$(this);
+		var name=that.find('#name').val();
+		var tel=that.find('#tel').val();
+		var idcard=that.find('#idcard').val();
+		if(name!=''){
+			if(travelertxt==''){
+				travelertxt='{"name":"'+name+'","tel":"'+tel+'","idcard":"'+idcard+'"}';
+			}else{
+				travelertxt=travelertxt+',{"name":"'+name+'","tel":"'+tel+'","idcard":"'+idcard+'"}';
+			}
+		}
+	})
+	travelertxt='['+travelertxt+']';
+	var contact='';
+	var name=$('.contact #name').val();
+	var tel=$('.contact #tel').val();
+	var email=$('.contact #email').val();
+	contact='{"name":"'+name+'","tel":"'+tel+'","email":"'+email+'"}';
+	console.log(contact)
+	var url="https://www.yuanzigo.com/api/order/confirm?token="+token+'&orderid='+orderid+'&traveler='+travelertxt+'&contact='+contact;
+	$.get(url,function(data){
+		console.log(data);
+		if(data.code==1){
+			$('.prebtn').text('请支付');
+			var url="https://www.yuanzigo.com/api/wechat/pay?token="+token+'&orderid='+orderid;
+			console.log(url)
+			$('#noticediv').html("<a href='"+url+"'>点吉</a>")
+			$.get(url,function(data){				
+				if(data.code==1){
+					$('.prebtn').text('请支付……');
+					console.log('paying^-^');
+					var  options = data.data;
+					options.success = function () {
+						console.log('pay success')						
+					};
+					options.cancel = function () {
+						console.log('pay cancel')
+					};
+					options.fail = function () {
+						console.log('pay fail')
+						layer.alert('fail')
+					};	
+					console.log(options)
+					wx.chooseWXPay(options);
+				}
+			})
+		}
+	});
+})
+
+$('.gobtn').click(function(){
+	var formattxt='';
+	$('.formats').each(function(){
+		var that=$(this);
+		var fid=that.attr('data-format-id');
+		var count=$('#format_num_'+fid).text();
+		if(formattxt==''){
+			formattxt='{format_id:'+fid+',count:'+count+'}';
+		}else{
+			formattxt=formattxt+',{format_id:'+fid+',count:'+count+'}';
+		}
+	})
+	formattxt='['+formattxt+']';
+	var url="https://www.yuanzigo.com/api/order/getOrderInfo?id="+id+'&token='+token+'&format='+formattxt;
+	layer.alert(url)
+	location.href=url;
+	$.get(url,function(data){
+		if(data.allow_sell==1){
+			console.log(data)
+		}
+	})
+})
+
+</script>
+</html>

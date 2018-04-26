@@ -1,0 +1,77 @@
+{include file="public/header" /}
+<style>
+.listson p{
+	padding-left:4em;
+	padding-top:1em;
+	padding-bottom:0.5em;
+}
+.first{
+	padding-top:2em;
+}
+</style>
+<div class="row bord-all" style="margin-top:3em;">
+	<div class="col-lg-10 col-lg-offset-1">
+		<div class="row" style="background-color:#fff">
+			<div class="col-lg-2 bord-rgt  pad-no">
+				<div class="list-group bord-no pad-no mar-top">
+					<div class="list-group-item pad-no {eq name='menuinfo.controller' value='Talent'}bg-success{/eq}">
+						<div class="bord-btm pad-all link" data-url="{:url('index/index')}">
+							<i class="ion-home icon-2x mar-hor"></i>首页
+						</div>
+					</div>
+					<div class="list-group-item pad-no">
+						<div class="bord-btm pad-all listson">
+							<div class="mar-btm"><i class="ion-bag icon-2x mar-hor"></i>商品管理</div>
+							<p class="link {eq name='menuinfo.controller' value='Goods'}{eq name='menuinfo.action' value='index'}bg-success{/eq}{/eq}" data-url="{:url('goods/index')}">商品列表</p>
+							<p class="link {eq name='menuinfo.controller' value='Goods'}{eq name='menuinfo.action' value='add'}bg-success{/eq}{/eq}" data-url="{:url('goods/add')}">添加商品</p>
+						</div>
+					</div>
+					<div class="list-group-item pad-no">
+						<div class="bord-btm pad-all listson">
+							<div class="mar-btm"><i class="ion-clipboard icon-2x mar-hor"></i>订单管理</div>
+							<p class="link {eq name='menuinfo.controller' value='Orders'}{eq name='menuinfo.action' value='index'}bg-success{/eq}{/eq}" data-url="{:url('orders/index')}">订单列表</p>
+							<p class="link {eq name='menuinfo.controller' value='Orders'}{eq name='menuinfo.action' value='add'}bg-success{/eq}{/eq}" data-url="{:url('orders/add')}">添加商品</p>
+						</div>
+					</div>
+					<div class="list-group-item pad-no">
+						<div class="bord-btm pad-all listson">
+							<div class="mar-btm"><i class="ion-speakerphone icon-2x mar-hor"></i>广告管理</div>
+							<p class="link {eq name='menuinfo.controller' value='Ad'}{eq name='menuinfo.action' value='index'}bg-success{/eq}{/eq}" data-url="{:url('ad/index')}">轮播广告</p>
+							<p class="link {eq name='menuinfo.controller' value='Ad'}{eq name='menuinfo.action' value='text'}bg-success{/eq}{/eq}" data-url="{:url('ad/text')}">文字广告</p>
+							<p class="link {eq name='menuinfo.controller' value='Ad'}{eq name='menuinfo.action' value='topic'}bg-success{/eq}{/eq}" data-url="{:url('ad/topic')}">专题页广告</p>
+							<p class="link {eq name='menuinfo.controller' value='Ad'}{eq name='menuinfo.action' value='activity'}bg-success{/eq}{/eq}" data-url="{:url('ad/activity')}">活动广告</p>
+						</div>
+					</div>
+					<div class="list-group-item pad-no">
+						<div class="bord-btm pad-all listson">
+							<div class="mar-btm"><i class="ion-settings icon-2x mar-hor"></i>系统管理</div>
+							<p class="link {eq name='menuinfo.controller' value='System'}{eq name='menuinfo.action' value='goodcate'}bg-success{/eq}{/eq}" data-url="{:url('system/goodcate')}">商品分类</p>
+							<p class="link {eq name='menuinfo.controller' value='System'}{eq name='menuinfo.action' value='config'}bg-success{/eq}{/eq}" data-url="{:url('system/config')}">系统配置</p>
+						</div>
+					</div>
+					<div class="list-group-item pad-no">
+						<div class="bord-btm pad-all listson">
+							<div class="mar-btm"><i class="ion-chatbubble icon-2x mar-hor"></i>微信管理</div>
+							<p class="link {eq name='menuinfo.controller' value='Weixin'}{eq name='menuinfo.action' value='index'}bg-success{/eq}{/eq}" data-url="{:url('weixin/index')}">微信首页</p>
+							<p class="link {eq name='menuinfo.controller' value='Weixin'}{eq name='menuinfo.action' value='menu'}bg-success{/eq}{/eq}" data-url="{:url('weixin/menu')}">自定义菜单</p>
+						</div>
+					</div>
+					<div class="list-group-item pad-no">
+						<div class="bord-btm pad-all listson">
+							<div class="mar-btm"><i class="ion-person icon-2x mar-hor"></i>我的</div>
+							<p class="link {eq name='menuinfo.controller' value='User'}{eq name='menuinfo.action' value='money'}bg-success{/eq}{/eq}" data-url="{:url('user/index')}">基本资料</p>
+							<p class="link {eq name='menuinfo.controller' value='User'}{eq name='menuinfo.action' value='sales'}bg-success{/eq}{/eq}" data-url="{:url('user/verify')}">提交审核</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-10 bord-lft">
+				<div class="pad-all mar-all">
+					{__CONTENT__}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ 
+{include file="public/footer" /}

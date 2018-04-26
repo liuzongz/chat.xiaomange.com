@@ -1,0 +1,124 @@
+{layout name="layout"}
+<link href="__PLUGINS__/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+<script src="__PLUGINS__/bootstrap-select/bootstrap-select.min.js"></script>
+<link href="__PLUGINS__/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+<script src="__PLUGINS__/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+<script src="__PLUGINS__/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<style>
+	.left-bord{
+		border-left:8px solid #34495e;
+	}
+</style>
+
+<p class="pad-all bg-gray">搜索项目</p>
+<div class="bg-light pad-all">
+	<select class="selectpicker">
+		<option>HTML</option>
+		<option>HTML</option>
+		<option>HTML</option>
+	</select>
+	<button class="btn btn-primary mar-btm">搜索项目</button>
+</div>
+
+<p class="pad-all bg-gray ">关键指标</p>
+<div class="row text-center bord-all">
+	<div class="col-xs-4 pad-all"> 
+		<p>社群数量</p>
+		<p class="text-3x text-bold text-dark">123</p>
+		<p>昨日新增 10个</p>
+		</div>
+	<div class="col-xs-4 bord-hor pad-all">
+		<p>社群数量</p>
+		<p class="text-3x text-bold text-dark">123</p>
+		<p>昨日新增 10个</p>
+	</div>
+	<div class="col-xs-4 pad-all">
+		<p>社群数量</p>
+		<p class="text-3x text-bold text-dark">123</p>
+		<p>昨日新增 10个</p>
+	</div>
+</div>
+
+<p class="pad-all bg-gray ">趋势分析</p>
+<div class="pad-all row">
+	<div class="col-xs-4">
+		<button class="btn btn-default">社群数量</button>
+		<button class="btn btn-default">销售额</button>
+		<button class="btn btn-default">在线活动</button>
+	</div>	
+	<div class="col-xs-8 row">
+		<div class="col-xs-4">
+			<span class="pad-hor">时间</span>
+			<span class="btn pad-hor">今天</span>
+			<span class="btn pad-hor">7天</span>
+			<span class="btn pad-hor">30天</span>
+		</div>
+		<div class="col-xs-8">
+			<div id="time-range">
+				<div class="input-daterange input-group" id="datepicker">
+					<input type="text" class="form-control" name="start" />
+					<span class="input-group-addon">至</span>
+					<input type="text" class="form-control" name="end" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p class="pad-all left-bord text-bold text-dark text-lg">趋势图</p>
+<div class="pad-all" style="height:15em;"></div>
+
+<p class="pad-all bg-gray ">详细数据</p>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Invoice</th>
+			<th>Invoice</th>
+			<th>Invoice</th>
+			<th>Invoice</th>
+			<th>Invoice</th>
+			<th>Invoice</th>
+			<th>Invoice</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><i class="ion-arrow-up-a icon-5x text-danger"></i></td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>			
+		</tr>
+		<tr>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>
+			<td>safasf</td>			
+		</tr>
+	</tbody>
+</table>
+
+<div class="form-group">
+                                        <label class="col-sm-3 control-label" for="demo-hor-inputemail">
+                                            Email</label>
+                                        <div class="col-sm-9">
+                                            <input type="email" placeholder="Email" id="demo-hor-inputemail" class="form-control">
+                                        </div>
+                                    </div>
+                                    
+<script>
+$(function(){
+	$('#time-range .input-daterange').datepicker({
+		format: "yyyy-mm-dd",
+        todayBtn: "linked",
+        autoclose: true,
+        todayHighlight: true,
+        language: "zh-CN",
+    });
+})
+</script>
